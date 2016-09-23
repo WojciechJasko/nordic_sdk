@@ -1,0 +1,6 @@
+ - driver common irq handling
+ - common?
+ - nrf_peripherals?
+ - nrf_error.h
+ - name of macros in nrf_macros.h
+ - disable irq in handler
