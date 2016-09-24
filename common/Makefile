@@ -54,7 +54,7 @@ help:
 	@echo following targets are available:
 	@echo 	nrf_common_lib
 
-TEMPLATE_PATH := $(SDK_ROOT)/common/toolchain/gcc
+TEMPLATE_PATH := $(PROJ_DIR)/toolchain/gcc
 
 include $(TEMPLATE_PATH)/Makefile.common
 $(call define_library, $(TARGETS), nrf_common_lib_nrf51.a)

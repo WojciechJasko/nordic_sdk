@@ -1,5 +1,5 @@
-PROJECT_NAME     := ext_micro_ecc_nrf51_library_armgcc
-TARGETS          := micro_ecc_lib
+PROJECT_NAME     := nrf_drivers_nrf51_armgcc
+TARGETS          := nrf_drivers_lib
 OUTPUT_DIRECTORY := _build
 
 SDK_ROOT := ../.
@@ -46,17 +46,17 @@ ASMFLAGS += -DNRF51
 
 .PHONY: $(TARGETS) default all clean help flash 
 # Default target - first one defined
-default: micro_ecc_lib
+default: nrf_drivers_lib
 
 # Print all targets that can be built
 help:
 	@echo following targets are available:
-	@echo 	micro_ecc_lib
+	@echo 	nrf_drivers_lib
 
 TEMPLATE_PATH := $(SDK_ROOT)/common/toolchain/gcc
 
 include $(TEMPLATE_PATH)/Makefile.common
-$(call define_library, $(TARGETS), micro_ecc_lib_nrf51.a)
+$(call define_library, $(TARGETS), nrf_drivers_lib_nrf51.a)
 -include $($(strip $(TARGETS))_dependencies)
 
 define create_library
@@ -64,6 +64,6 @@ define create_library
 $(NO_ECHO)$(AR) $($@) $^
 @echo Done
 endef
-micro_ecc_lib:
+nrf_drivers_lib:
 	$(create_library)
 
