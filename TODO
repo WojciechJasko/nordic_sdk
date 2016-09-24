@@ -4,3 +4,6 @@
  - nrf_error.h
  - name of macros in nrf_macros.h
  - disable irq in handler
+ - nrf_validator
+ - pans
+ 

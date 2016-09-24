@@ -1,5 +1,5 @@
-PROJECT_NAME     := ext_micro_ecc_nrf51_library_armgcc
-TARGETS          := micro_ecc_lib
+PROJECT_NAME     := nrf_common_nrf51_armgcc
+TARGETS          := nrf_common_lib
 OUTPUT_DIRECTORY := _build
 
 SDK_ROOT := ../.
@@ -8,16 +8,16 @@ PROJ_DIR := ./.
 
 # Source files common to all targets
 SRC_FILES += \
-  $(PROJ_DIR)/rtc/nrf_drv_rtc.c \
-  $(PROJ_DIR)/common/nrf_drv_common.c \
+  $(PROJ_DIR)/error/nrf_assert.c \
+  $(PROJ_DIR)/error/nrf_errors.c \
+  $(PROJ_DIR)/error/nrf_assert.c \
 
 # Include folders common to all targets
 INC_FOLDERS += \
   $(PROJ_DIR)     \
-  $(PROJ_DIR)/hal \
-  $(SDK_ROOT)/common \
-  $(SDK_ROOT)/common/toolchain \
-  $(SDK_ROOT)/common/toolchain/cmsis/include \
+  $(PROJ_DIR)/common \
+  $(PROJ_DIR)/common/toolchain \
+  $(PROJ_DIR)/common/toolchain/cmsis/include \
 
 # Libraries common to all targets
 LIB_FILES += \
@@ -36,7 +36,6 @@ CFLAGS += -MP -MD
 
 # C++ flags common to all targets
 CXXFLAGS += \
-  $(SDK_ROOT)/common/nrf_common_lib_nrf51.a \
 
 # Assembler flags common to all targets
 ASMFLAGS += -x assembler-with-cpp
@@ -44,19 +43,21 @@ ASMFLAGS += -DNRF51
 
 # Linker flags
 
+
+
 .PHONY: $(TARGETS) default all clean help flash 
 # Default target - first one defined
-default: micro_ecc_lib
+default: nrf_common_lib
 
 # Print all targets that can be built
 help:
 	@echo following targets are available:
-	@echo 	micro_ecc_lib
+	@echo 	nrf_common_lib
 
 TEMPLATE_PATH := $(SDK_ROOT)/common/toolchain/gcc
 
 include $(TEMPLATE_PATH)/Makefile.common
-$(call define_library, $(TARGETS), micro_ecc_lib_nrf51.a)
+$(call define_library, $(TARGETS), nrf_common_lib_nrf51.a)
 -include $($(strip $(TARGETS))_dependencies)
 
 define create_library
@@ -64,6 +65,6 @@ define create_library
 $(NO_ECHO)$(AR) $($@) $^
 @echo Done
 endef
-micro_ecc_lib:
+nrf_common_lib:
 	$(create_library)
 

@@ -98,7 +98,7 @@ nrf_ret_t nrf_drv_rtc_cc_set(nrf_drv_rtc_t const * const p_instance,
     NRF_ASSERT(channel < p_instance->cc_channel_count);
 
     nrf_hal_rtc_event_t event    = NRF_HAL_RTC_CHANNEL_EVENT_ADDR(channel);
-    uint32_t            int_mask = NRF_HAL_RTC_CHANNEL_EVENT_ADDR(channel);
+    uint32_t            int_mask = NRF_HAL_RTC_CHANNEL_INT_MASK(channel);
 
     nrf_hal_rtc_event_disable(p_instance->p_reg,    int_mask);
     nrf_hal_rtc_int_disable(p_instance->p_reg,      int_mask);

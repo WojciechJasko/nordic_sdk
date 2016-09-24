@@ -36,8 +36,6 @@ typedef struct
 
 
 void nrf_error_handler(nrf_ret_t err_code, uint32_t line_num, const uint8_t * p_file_name);
-void nrf_error_handler_bare(nrf_ret_t err_code);
-void nrf_error_fault_handler(uint32_t id, uint32_t pc, uint32_t info);
 
 #ifdef NRF_DEBUG
 #define NRF_ERROR_HANDLER(err_code)                                    \
@@ -49,7 +47,7 @@ void nrf_error_fault_handler(uint32_t id, uint32_t pc, uint32_t info);
 #define NRF_ERROR_HANDLER(err_code)                                    \
     do                                                                 \
     {                                                                  \
-        nrf_error_handler_bare((err_code));                            \
+        nrf_error_handler((err_code), 0, NULL);                        \
     } while (0)
 #endif
 
