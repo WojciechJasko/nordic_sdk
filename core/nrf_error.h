@@ -24,7 +24,7 @@ extern "C" {
 #define NRF_ERROR_SDM_BASE_NUM  (0x1000)    ///< SDM error base
 #define NRF_ERROR_SOC_BASE_NUM  (0x2000)    ///< SoC error base
 #define NRF_ERROR_STK_BASE_NUM  (0x3000)    ///< STK error base
-#define NRF_ERROR_ANT_BASE_NUM  (0x4000)    ///< ANT's Exception offset
+#define NRF_ERROR_ANT_BASE_NUM  (0x4000)    ///< ANT error base
 /** @} */
 
 #define NRF_SUCCESS                           (NRF_ERROR_BASE_NUM + 0)  ///< Successful command
@@ -51,6 +51,7 @@ extern "C" {
 
 
 typedef uint32_t nrf_ret_t;
+
 
 typedef struct
 {

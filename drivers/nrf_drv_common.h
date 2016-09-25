@@ -14,7 +14,6 @@
 #define NRF_DRV_COMMON_H__
 
 #include <stdint.h>
-#include <nrf.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,11 +24,10 @@ extern "C" {
  */
 typedef enum
 {
-    NRF_DRV_STATE_UNINITIALIZED, /**< Uninitialized. */
-    NRF_DRV_STATE_INITIALIZED, /**< Initialized but powered off. */
+    NRF_DRV_STATE_UNINITIALIZED,    /**< Uninitialized. */
+    NRF_DRV_STATE_INITIALIZED,      /**< Initialized but powered off. */
     NRF_DRV_STATE_POWERED_ON
 } nrf_drv_state_t;
-
 
 
 #ifdef __cplusplus

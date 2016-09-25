@@ -11,7 +11,6 @@
  */
 
 #include <nrf_drv_rtc.h>
-#include <nrf_assert.h>
 
 
 void nrf_drv_rtc_init(nrf_drv_rtc_t        const * const  p_instance,
@@ -189,7 +188,7 @@ uint32_t nrf_drv_rtc_max_ticks_get(nrf_drv_rtc_t const * const p_instance)
 }
 
 
-void nrf_drv_rtc_int_handler(nrf_drv_rtc_t const * const p_instance)
+void nrf_drv_rtc_irq_handler(nrf_drv_rtc_t const * const p_instance)
 {
     nrf_hal_rtc_event_t event       = NRF_HAL_RTC_EVT_COMPARE_0;
     uint32_t            int_mask    = (uint32_t)NRF_HAL_RTC_INT_COMPARE0_MASK;

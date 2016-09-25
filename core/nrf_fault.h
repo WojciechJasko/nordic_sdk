@@ -18,8 +18,12 @@
 extern "C" {
 #endif
 
-#define NRF_FAULT_ID_SDK_RANGE_START      (0x3000)
-
+/**@defgroup NRF_FAULT_ID_RANGES Fault ID ranges
+ * @{ */
+#define NRF_FAULT_ID_SD_RANGE_START     (0x0)           /**< SoftDevice ID range start. */
+#define NRF_FAULT_ID_APP_RANGE_START    (0x1000)        /**< Application ID range start. */
+#define NRF_FAULT_ID_SDK_RANGE_START    (0x2000)        
+/**@} */
 
 #define NRF_FAULT_ID_SDK_ERROR      (NRF_FAULT_ID_SDK_RANGE_START + 1)
 #define NRF_FAULT_ID_SDK_ASSERT     (NRF_FAULT_ID_SDK_RANGE_START + 2)

@@ -16,8 +16,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include <nrf.h>
-#include <nrf_peripherals.h>
+#include <nrf_core.h>
 #include <nrf_assert.h>
 
 #ifdef __cplusplus

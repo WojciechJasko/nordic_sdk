@@ -19,7 +19,7 @@
 
 #include <nrf_hal_rtc.h>
 #include <nrf_macros.h>
-#include <nrf_errors.h>
+#include <nrf_error.h>
 #include <nrf_drv_common.h>
 
 #ifdef __cplusplus
@@ -102,6 +102,7 @@ void nrf_drv_rtc_overflow_disable(nrf_drv_rtc_t const * const p_instance);
 
 uint32_t nrf_drv_rtc_max_ticks_get(nrf_drv_rtc_t const * const p_instance);
 
+void nrf_drv_rtc_irq_handler(nrf_drv_rtc_t const * const p_instance);
 
 #ifdef __cplusplus
 }
