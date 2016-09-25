@@ -12,9 +12,8 @@
 #include <stdio.h>
 
 #include <nrf_fault.h>
-#include <nrf_errors.h>
-#include <nrf_asserts.h>
-#include <device/compiler_abstraction.h>
+#include <nrf_error.h>
+#include <nrf_core.h>
 
 
 __WEAK void nrf_fault_handler(uint32_t id, uint32_t pc, uint32_t info)

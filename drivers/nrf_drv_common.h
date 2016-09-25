@@ -30,22 +30,6 @@ typedef enum
     NRF_DRV_STATE_POWERED_ON
 } nrf_drv_state_t;
 
-/**
- * @brief Function sets priority and enables NVIC interrupt
- *
- * @note Function checks if correct priority is used when softdevice is present
- *
- * @param[in] IRQn     Interrupt id
- * @param[in] priority Interrupt priority
- */
-void nrf_drv_common_irq_enable(IRQn_Type IRQn, uint8_t priority);
-
-/**
- * @brief Function disables NVIC interrupt
- *
- * @param[in] IRQn     Interrupt id
- */
-void nrf_drv_common_irq_disable(IRQn_Type IRQn);
 
 
 #ifdef __cplusplus

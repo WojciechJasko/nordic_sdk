@@ -9,17 +9,27 @@
  * the file.
  */
 
-#include <nrf_assert.h>
-#include <nrf_fault.h>
-#include <device/compiler_abstraction.h>
+#ifndef NRF_FAULT_H__
+#define NRF_FAULT_H__
 
-__WEAK void nrf_assert_handler(uint16_t line_num, const uint8_t * p_file_name)
-{
-    nrf_assert_info_t assert_info =
-    {
-        .line_num    = line_num,
-        .p_file_name = p_file_name,
-    };
+#include <stdint.h>
 
-    nrf_fault_handler(NRF_FAULT_ID_SDK_ASSERT, 0, (uint32_t)(&assert_info));
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define NRF_FAULT_ID_SDK_RANGE_START      (0x3000)
+
+
+#define NRF_FAULT_ID_SDK_ERROR      (NRF_FAULT_ID_SDK_RANGE_START + 1)
+#define NRF_FAULT_ID_SDK_ASSERT     (NRF_FAULT_ID_SDK_RANGE_START + 2)
+
+
+void nrf_fault_handler(uint32_t id, uint32_t pc, uint32_t info);
+
+
+#ifdef __cplusplus
 }
+#endif
+
+#endif // NRF_FAULT_H__

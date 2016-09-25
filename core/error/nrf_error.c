@@ -10,8 +10,8 @@
  */
 
 #include <nrf_errors.h>
+#include <nrf_core.h>
 #include <nrf_fault.h>
-#include <device/compiler_abstraction.h>
 
 __WEAK void nrf_error_handler(nrf_ret_t err_code, uint32_t line_num, const uint8_t * p_file_name)
 {
