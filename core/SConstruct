@@ -18,40 +18,29 @@ env['CPPPATH'] = [
     '.',
     'mcu//cmsis//include'
     ]
+env['CCFLAGS'] = ['-O2',
+                  '-Wall',
+                  '-mlittle-endian',
+                  '-mthumb',
+                  '-mcpu=cortex-m4',
+                  '-mthumb-interwork',
+                  '-mfloat-abi=soft',
+                  '-mfpu=fpv4-sp-d16',
+                  '-ffreestanding',
+                  '-nostdlib']
 
-env.Append(CCFLAGS = ['-O2',
-                      '-Wall',
-                      '-mlittle-endian',
-                      '-mthumb',
-                      '-mcpu=cortex-m4',
-                      '-mthumb-interwork',
-                      '-mfloat-abi=soft',
-                      '-mfpu=fpv4-sp-d16',
-                      '-ffreestanding',
-                      '-nostdlib'])
-                      
-env.Append(LINKFLAGS = ['-mlittle-endian',
-                        '-mthumb',
-                        '-mcpu=cortex-m4',
-                        '-mthumb-interwork',
-                        '-mfloat-abi=soft',
-                        '-mfpu=fpv4-sp-d16'])
-# print env.Dump()
-# # compiler flags
-# env.Append(CCFLAGS = [
-#     ])
- 
-# # linker flags
-# env.Append(LINKFLAGS = [
-#     ]) 
- 
+env['LINKFLAGS'] = ['-mlittle-endian',
+                    '-mthumb',
+                    '-mcpu=cortex-m4',
+                    '-mthumb-interwork',
+                    '-mfloat-abi=soft',
+                    '-mfpu=fpv4-sp-d16']
+
 # defines
 env['CPPDEFINES'] = [
-    'NRF_MCU=NRF52832',
-    # '__GNUC__'
+    'NRF_MCU=NRF52832'
 ]
 
-# build everything
 prg = env.Library(
     target = 'core',
     source = [
