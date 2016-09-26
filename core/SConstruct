@@ -18,6 +18,24 @@ env['CPPPATH'] = [
     '.',
     'mcu//cmsis//include'
     ]
+
+env.Append(CCFLAGS = ['-O2',
+                      '-Wall',
+                      '-mlittle-endian',
+                      '-mthumb',
+                      '-mcpu=cortex-m4',
+                      '-mthumb-interwork',
+                      '-mfloat-abi=soft',
+                      '-mfpu=fpv4-sp-d16',
+                      '-ffreestanding',
+                      '-nostdlib'])
+                      
+env.Append(LINKFLAGS = ['-mlittle-endian',
+                        '-mthumb',
+                        '-mcpu=cortex-m4',
+                        '-mthumb-interwork',
+                        '-mfloat-abi=soft',
+                        '-mfpu=fpv4-sp-d16'])
 # print env.Dump()
 # # compiler flags
 # env.Append(CCFLAGS = [
@@ -29,12 +47,12 @@ env['CPPPATH'] = [
  
 # defines
 env['CPPDEFINES'] = [
-    'NRF_MCU=NRF51822',
+    'NRF_MCU=NRF52832',
     # '__GNUC__'
 ]
- 
+
 # build everything
-prg = env.Program(
+prg = env.Library(
     target = 'core',
     source = [
         'error/nrf_fault.c',
