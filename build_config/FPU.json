@@ -1,0 +1,23 @@
+{
+    "FPU": [
+        {
+            "SOFT": [
+                {
+                    "CCFLAGS" : [
+                        "-mfloat-abi=soft"
+                    ]
+                }
+            ]
+        },
+        {
+            "HARD": [
+                {
+                    "CCFLAGS" : [
+                        "-mfloat-abi=hard",
+                        "-mfpu=fpv4-sp-d16"
+                    ]
+                }
+            ]
+        }
+    ]
+}

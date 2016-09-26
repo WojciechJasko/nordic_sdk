@@ -1,23 +1,28 @@
 import os
-env = Environment(ENV = os.environ)
 
-env['CC']           = "arm-none-eabi-gcc"
-env['CXX']          = "arm-none-eabi-c++"
-env['AS']           = "arm-none-eabi-as"
-env['AR']           = "arm-none-eabi-ar"
-env['LD']           = "arm-none-eabi-ld"
-env['NM']           = "arm-none-eabi-nm"
-env['OBJDUMP']      = "arm-none-eabi-objdump"
-env['OBJCOPY']      = "arm-none-eabi-objcopy"
-env['SIZE']         = "arm-none-eabi-size"
+tools = ['gcc', 'g++', 'ar']
+
+env = Environment(tools=tools,ENV = os.environ)
+
+env['CC']           = 'arm-none-eabi-gcc'
+env['CXX']          = 'arm-none-eabi-c++'
+env['AS']           = 'arm-none-eabi-as'
+env['AR']           = 'arm-none-eabi-ar'
+env['LD']           = 'arm-none-eabi-ld'
+env['NM']           = 'arm-none-eabi-nm'
+env['OBJDUMP']      = 'arm-none-eabi-objdump'
+env['OBJCOPY']      = 'arm-none-eabi-objcopy'
+env['SIZE']         = 'arm-none-eabi-size'
 env['RANLIB']       = 'arm-none-eabi-ranlib'
 env['PROGSUFFIX']   = '.elf'
 
 # include locations
 env['CPPPATH'] = [
     '.',
-    'mcu//cmsis//include'
+    'mcu/cmsis/include'
     ]
+
+
 env['CCFLAGS'] = ['-O2',
                   '-Wall',
                   '-mlittle-endian',
@@ -45,5 +50,7 @@ prg = env.Library(
     target = 'core',
     source = [
         'error/nrf_fault.c',
+        'error/nrf_assert.c',
+        'error/nrf_error.c',
     ]
 )

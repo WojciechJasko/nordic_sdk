@@ -1,0 +1,68 @@
+{
+    "TARGET": [
+        {
+            "CORTEX_M0": [
+                {
+                    "CCFLAGS" : [
+                        "-mcpu=cortex-m0"
+                    ]
+                },
+                {
+                    "LDFLAGS" : [
+                        "-mcpu=cortex-m0"
+                    ]
+                }
+            ]
+        },
+        {
+            "CORTEX_M4": [
+                {
+                    "CCFLAGS" : [
+                        "-mcpu=cortex-m4"
+                    ]
+                },
+                {
+                    "LDFLAGS" : [
+                        "-mcpu=cortex-m4"
+                    ]
+                }
+            ]
+        },
+        {
+            "WIN32": [
+                {
+                    "CCFLAGS" : [
+                        "-arch i386",
+                        "-DWIN32",
+                        "-D_WIN32",
+                        "-Wno-implicit-function-declaration",
+                        "-Wno-duplicate-decl-specifier",
+                        "-Wno-uninitialized"
+                    ]
+                },
+                {
+                    "LDFLAGS" : [
+                        "-arch i386",
+                        "-Wno-implicit-function-declaration",
+                        "-Wno-duplicate-decl-specifier",
+                        "-Wno-uninitialized"
+                    ]
+                }
+            ]
+        },
+        {
+            "LINUX": [
+                {
+                    "CCFLAGS" : [
+                        "-m32"
+                    ]
+                },
+                {
+                    "LDFLAGS" : [
+                        "-m32"
+                    ]
+                }
+            ]
+        }
+    ]
+}

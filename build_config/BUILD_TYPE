@@ -1,0 +1,25 @@
+{
+    "BUILD_TYPE": [
+        {
+            "RELEASE": [
+                {
+                    "CCFLAGS" : [
+                        "-O3"
+                    ]
+                }
+            ]
+        },
+        {
+            "DEBUG": [
+                {
+                    "CCFLAGS" : [
+                        "-O0"
+                    ],
+                    "CPPDEFINES" : [
+                        "NRF_DEBUG"
+                    ]
+                }
+            ]
+        }
+    ]
+}

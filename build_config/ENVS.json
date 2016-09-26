@@ -1,0 +1,21 @@
+{
+    "NRF52832_armgcc_release": [
+        {
+        "TARGET"        : "CORTEX_M4"
+        },
+        {
+        "FPU"           : "HARD"
+        },
+        {
+        "BUILD_TYPE"    : "RELEASE"
+        },
+        {
+        "COMPILER"      : "ARM_NONE_EABI"
+        },
+        {
+        "CCFLAGS" : [
+                        "-NRF_MCU=NRF52832"
+                    ]
+        }
+    ]
+}

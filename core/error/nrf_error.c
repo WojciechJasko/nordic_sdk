@@ -9,7 +9,7 @@
  * the file.
  */
 
-#include <nrf_errors.h>
+#include <nrf_error.h>
 #include <nrf_core.h>
 #include <nrf_fault.h>
 
