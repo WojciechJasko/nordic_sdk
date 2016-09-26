@@ -46,7 +46,7 @@ typedef enum
 } nrf_drv_rtc_evt_t;
 
 /**@brief RTC driver instance handler type. */
-typedef void (*nrf_drv_rtc_handler_t)(nrf_drv_rtc_evt_t int_type);
+typedef void (*nrf_drv_rtc_handler_t)(nrf_drv_rtc_evt_t event);
 
 typedef struct
 {
