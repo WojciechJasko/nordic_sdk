@@ -27,13 +27,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
- 
+
 /* NOTE: Template files (including this one) are application specific and therefore expected to
    be copied into the application project folder prior to its use! */
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "nrf.h"
+#include "nrf51.h"
+#include "nrf51_bitfields.h"
 #include "system_nrf51.h"
 
 /*lint ++flb "Enter library region" */
