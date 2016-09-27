@@ -31,3 +31,10 @@
 # Debug files
 *.dSYM/
 *.su
+
+# Scons output
+*.dblite
+
+# Ctag output
+.tags
+.tags_sorted_by_file
