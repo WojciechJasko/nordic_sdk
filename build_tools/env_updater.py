@@ -2,7 +2,7 @@ import os
 import json
 import pprint as pp
 
-class EnvBuilder():
+class EnvUpdater():
 
     def __init__(self, path):
         self.db = dict()
@@ -30,14 +30,14 @@ class EnvBuilder():
 
         elif isinstance(desc, dict):
             for key, value in desc.iteritems():
-                if key in env:
+                if key in env: # key found
+                    # update enviroment
                     if isinstance(env[key], list):
                         env[key].extend(value)
                     else:
                         env[key] = value
 
                 elif key in self.db:
-                    print(key, value, self.db[key][value])
                     self.update(env, self.db[key][value])
 
                 else:

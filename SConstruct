@@ -1,6 +1,6 @@
 import os
 import json
-from build_tools.env_builder import EnvBuilder
+from build_tools.env_updater import EnvUpdater
 
 tools = ['gcc', 'g++', 'ar']
 
@@ -11,7 +11,7 @@ common_env['LINKFLAGS']     = list()
 common_env['CPPDEFINES']    = list()
 
 
-env_builder = EnvBuilder("build_tools/config")
+env_builder = EnvUpdater("build_tools/config")
 
 with open('build_tools/envs.json', "r") as f:
     desc = json.load(f)
