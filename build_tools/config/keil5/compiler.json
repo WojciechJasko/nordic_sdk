@@ -1,0 +1,38 @@
+{
+  "compiler": {
+    "CCFLAGS": [
+      "-mthumb",
+      "-mabi=aapcs",
+      "-Wall",
+      "-Werror",
+      "-g3",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-fno-strict-aliasing",
+      "-fno-builtin",
+      "--short-enums",
+      "-MP",
+      "-MD"
+    ],
+    "LINKFLAGS": [
+      "-mthumb",
+      "-mabi=aapcs",
+      "-Wl",
+      "--gc-sections",
+      "--specs=nano.specs",
+      "-lc",
+      "-lnosys"
+    ],
+    "CC": "arm-none-eabi-gcc",
+    "CXX": "arm-none-eabi-g++",
+    "AS": "arm-none-eabi-as",
+    "AR": "arm-none-eabi-ar",
+    "LD": "arm-none-eabi-ld",
+    "NM": "arm-none-eabi-nm",
+    "OBJDUMP": "arm-none-eabi-objdump",
+    "OBJCOPY": "arm-none-eabi-objcopy",
+    "SIZE": "arm-none-eabi-size",
+    "RANLIB": "arm-none-eabi-ranlib",
+    "PROGSUFFIX": ".elf"
+  }
+}
