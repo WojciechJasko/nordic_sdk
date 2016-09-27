@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 import pprint as pp
 
 class EnvUpdater():
@@ -44,7 +45,10 @@ class EnvUpdater():
                     raise Exception("Unknown key {}".format(key))
 
         else:
-            raise Exception("Unexpected type {} {}".format(type(desc), desc))
+            if desc in self.db:
+                self.update(env, self.db[desc])
+            else:
+                raise Exception("Unexpected type {} {}".format(type(desc), desc))
 
 
     def dump(self):

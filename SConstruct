@@ -11,20 +11,13 @@ common_env['LINKFLAGS']     = list()
 common_env['CPPDEFINES']    = list()
 
 
-env_builder = EnvUpdater("build_tools/config")
+toolchain_updater   = EnvUpdater("build_tools/config/armgcc")
+common_updater      = EnvUpdater("build_tools/config/common")
 
 with open('build_tools/envs.json', "r") as f:
     desc = json.load(f)
 
 nrf52832_env = common_env.Clone()
-
+toolchain_updater.update(nrf52832_env, desc['NRF52832'])
+common_updater.update(nrf52832_env, {'build_type': 'debug'})
 print nrf52832_env.Dump()
-print('')
-print('')
-print('')
-env_builder.update(nrf52832_env, desc['NRF52832'])
-print('')
-print('')
-print('')
-print nrf52832_env.Dump()
-# env_builder.dump()

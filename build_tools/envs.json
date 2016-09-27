@@ -1,5 +1,6 @@
 {
   "NRF52832": [
+    "compiler",
     {
       "target": "cortex_m4"
     },
