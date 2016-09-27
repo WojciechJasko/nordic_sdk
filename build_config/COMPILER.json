@@ -1,111 +1,111 @@
 {
-    "COMPILER": [
+  "compiler": [
+    {
+      "arm_none_eabi": [
         {
-            "ARM_NONE_EABI": [
-                {
-                    "CCFLAGS" : [
-                        "-mthumb",
-                        "-mabi=aapcs",
-                        "-Wall",
-                        "-Werror",
-                        "-g3",
-                        "-ffunction-sections",
-                        "-fdata-sections",
-                        "-fno-strict-aliasing",
-                        "-fno-builtin",
-                        "--short-enums",
-                        "-MP",
-                        "-MD"
-                    ]
-                },
-                {
-                    "LDFLAGS" : [
-                        "-mthumb",
-                        "-mabi=aapcs",
-                        "-Wl",
-                        "--gc-sections",
-                        "--specs=nano.specs",
-                        "-lc",
-                        "-lnosys"
-                    ]
-                },
-                {
-                    "CC" : "arm-none-eabi-gcc"
-                },
-                {
-                    "CXX" : "arm-none-eabi-g++"
-                },
-                {
-                    "AS" : "arm-none-eabi-as"
-                },
-                {
-                    "AR" : "arm-none-eabi-ar"
-                },
-                {
-                    "LD" : "arm-none-eabi-ld"
-                },
-                {
-                    "NM" : "arm-none-eabi-nm"
-                },
-                {
-                    "OBJDUMP" : "arm-none-eabi-objdump"
-                },
-                {
-                    "OBJCOPY" : "arm-none-eabi-objcopy"
-                },
-                {
-                    "SIZE" : "arm-none-eabi-size"
-                },
-                {
-                    "RANLIB" : "arm-none-eabi-ranlib"
-                },
-                {
-                    "PROGSUFFIX" : ".elf"
-                }
-            ]
+          "CCFLAGS": [
+            "-mthumb",
+            "-mabi=aapcs",
+            "-Wall",
+            "-Werror",
+            "-g3",
+            "-ffunction-sections",
+            "-fdata-sections",
+            "-fno-strict-aliasing",
+            "-fno-builtin",
+            "--short-enums",
+            "-MP",
+            "-MD"
+          ]
         },
         {
-            "GCC": [
-                {
-                    "CCFLAGS" : [
-                        "-Werror",
-                        "-g3",
-                        "--short-enums",
-                        "-MP",
-                        "-MD"
-                    ]
-                },
-                {
-                    "CC" : "gcc"
-                },
-                {
-                    "CXX" : "g++"
-                },
-                {
-                    "AS" : "as"
-                },
-                {
-                    "AR" : "ar"
-                },
-                {
-                    "LD" : "ld"
-                },
-                {
-                    "NM" : "nm"
-                },
-                {
-                    "OBJDUMP" : "objdump"
-                },
-                {
-                    "OBJCOPY" : "objcopy"
-                },
-                {
-                    "SIZE" : "size"
-                },
-                {
-                    "RANLIB" : "ranlib"
-                }
-            ]
+          "LDFLAGS": [
+            "-mthumb",
+            "-mabi=aapcs",
+            "-Wl",
+            "--gc-sections",
+            "--specs=nano.specs",
+            "-lc",
+            "-lnosys"
+          ]
+        },
+        {
+          "CC": "arm-none-eabi-gcc"
+        },
+        {
+          "CXX": "arm-none-eabi-g++"
+        },
+        {
+          "AS": "arm-none-eabi-as"
+        },
+        {
+          "AR": "arm-none-eabi-ar"
+        },
+        {
+          "LD": "arm-none-eabi-ld"
+        },
+        {
+          "NM": "arm-none-eabi-nm"
+        },
+        {
+          "OBJDUMP": "arm-none-eabi-objdump"
+        },
+        {
+          "OBJCOPY": "arm-none-eabi-objcopy"
+        },
+        {
+          "SIZE": "arm-none-eabi-size"
+        },
+        {
+          "RANLIB": "arm-none-eabi-ranlib"
+        },
+        {
+          "PROGSUFFIX": ".elf"
         }
-    ]
+      ]
+    },
+    {
+      "gcc": [
+        {
+          "CCFLAGS": [
+            "-Werror",
+            "-g3",
+            "--short-enums",
+            "-MP",
+            "-MD"
+          ]
+        },
+        {
+          "CC": "gcc"
+        },
+        {
+          "CXX": "g++"
+        },
+        {
+          "AS": "as"
+        },
+        {
+          "AR": "ar"
+        },
+        {
+          "LD": "ld"
+        },
+        {
+          "NM": "nm"
+        },
+        {
+          "OBJDUMP": "objdump"
+        },
+        {
+          "OBJCOPY": "objcopy"
+        },
+        {
+          "SIZE": "size"
+        },
+        {
+          "RANLIB": "ranlib"
+        }
+      ]
+    }
+  ]
 }
