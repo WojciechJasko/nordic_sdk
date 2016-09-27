@@ -1,6 +1,5 @@
 {
-  "compiler": [
-    {
+  "compiler": {
       "arm_none_eabi": [
         {
           "CCFLAGS": [
@@ -19,7 +18,7 @@
           ]
         },
         {
-          "LDFLAGS": [
+          "LINKFLAGS": [
             "-mthumb",
             "-mabi=aapcs",
             "-Wl",
@@ -62,10 +61,8 @@
         {
           "PROGSUFFIX": ".elf"
         }
-      ]
-    },
-    {
-      "gcc": [
+      ],
+    "gcc": [
         {
           "CCFLAGS": [
             "-Werror",
@@ -107,5 +104,4 @@
         }
       ]
     }
-  ]
 }

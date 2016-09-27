@@ -1,15 +1,12 @@
 {
-  "fpu": [
-    {
+  "fpu": {
       "soft": [
         {
           "CCFLAGS": [
             "-mfloat-abi=soft"
           ]
         }
-      ]
-    },
-    {
+      ],
       "hard": [
         {
           "CCFLAGS": [
@@ -19,5 +16,4 @@
         }
       ]
     }
-  ]
 }

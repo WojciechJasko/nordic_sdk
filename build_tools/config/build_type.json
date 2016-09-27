@@ -1,15 +1,12 @@
 {
-  "build_type": [
-    {
+  "build_type": {
       "release": [
         {
           "CCFLAGS": [
             "-O3"
           ]
         }
-      ]
-    },
-    {
+      ],
       "debug": [
         {
           "CCFLAGS": [
@@ -21,5 +18,4 @@
         }
       ]
     }
-  ]
 }
