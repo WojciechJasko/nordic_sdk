@@ -3,7 +3,7 @@ from env_builder import EnvBuilder
 class EnvBuilderArmgcc(EnvBuilder):
 
     def default_update(self, env):
-        super(ArmGccEnvBuilder, self).method(env)
+        super(EnvBuilderArmgcc, self).default_update(env)
 
         env["CCFLAGS"].extend([
                               "-mthumb",
@@ -44,7 +44,7 @@ class EnvBuilderArmgcc(EnvBuilder):
 
 
     def fpu_update(self, env, choice):
-        super(ArmGccEnvBuilder, self).method(env, choice)
+        super(EnvBuilderArmgcc, self).fpu_update(env, choice)
 
         if choice == 'hard':
             env["CCFLAGS"].extend([
@@ -62,7 +62,7 @@ class EnvBuilderArmgcc(EnvBuilder):
 
 
     def target_update(self, env, choice):
-        super(ArmGccEnvBuilder, self).method(env, choice)
+        super(EnvBuilderArmgcc, self).target_update(env, choice)
 
         if choice == 'cortex_m0':
             env["CCFLAGS"].extend([
