@@ -35,13 +35,25 @@ class EnvBuilder(object):
         self.default_update(new)
 
         if 'fpu' in desc:
-            self.fpu_update(new, desc['fpu'])
+            self.fpu_update(new, desc.pop('fpu'))
 
         if 'target' in desc:
-            self.target_update(new, desc['target'])
+            self.target_update(new, desc.pop('target'))
 
         if 'build_type' in desc:
-            self.build_type_update(new, desc['build_type'])
+            self.build_type_update(new, desc.pop('build_type'))
+
+        for i in xrange(len(desc)):
+            key, value = desc.popitem()
+
+            if key in EnvBuilder.SCONS_DEFAULTS:
+                if isinstance(value, list):
+                    new[key].extend(value)
+
+                else:
+                    new[key] = value
+            else:
+                raise Exception("Not supported key {}".format(key))
 
         return new
 

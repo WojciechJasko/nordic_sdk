@@ -11,5 +11,5 @@ armgcc_builder = EnvBuilderArmgcc(common_env)
 with open('build_tools/envs.json', "r") as f:
     desc = json.load(f)
 
-nrf52832_env = armgcc_builder.create(desc)
+nrf52832_env = armgcc_builder.create(desc['NRF52832'])
 print nrf52832_env.Dump()

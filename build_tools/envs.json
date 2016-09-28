@@ -1,11 +1,9 @@
 {
-  "NRF52832": [
-    "compiler",
-    {
-      "target": "cortex_m4"
-    },
-    {
-      "fpu": "hard"
-    }
-  ]
+  "NRF52832": {
+    "target": "cortex_m4",
+    "fpu": "hard",
+    "CCFLAGS": [
+        "-NRF_MCUP=NRF52832"
+    ]
+  }
 }
