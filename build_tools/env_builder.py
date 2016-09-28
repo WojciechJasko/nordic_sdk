@@ -2,7 +2,7 @@ import os
 import logging
 
 class EnvBuilder(object):
-    SCONS_DEFAULTS = [
+    SCONS_DEFAULTS = {
         'CC':          str(),
         'CXX':         str(),
         'AS':          str(),
@@ -16,13 +16,13 @@ class EnvBuilder(object):
         'PROGSUFFIX':  str(),
         'CCFLAGS':     list(),
         'CFLAGS':      list(),
-    ]
+    }
 
     def __init__(self, env):
         self.env = env
 
         # Complite the missing keys in enviroment
-        for key, value in desc.iteritems():
+        for key, value in EnvBuilder.SCONS_DEFAULTS.iteritems():
             if key not in self.env:
                 env[key] = value
 
@@ -31,16 +31,16 @@ class EnvBuilder(object):
         # Create a copy
         new = self.env.Clone()
 
-        self.default_update(env)
+        self.default_update(new)
 
         if 'fpu' in desc:
-            self.fpu_update(env, desc['fpu'])
+            self.fpu_update(new, desc['fpu'])
 
         if 'target' in desc:
-            self.target_update(env, desc['target'])
+            self.target_update(new, desc['target'])
 
         if 'build_type' in desc:
-            self.build_type_update(env, desc['build_type'])
+            self.build_type_update(new, desc['build_type'])
 
         return new
 

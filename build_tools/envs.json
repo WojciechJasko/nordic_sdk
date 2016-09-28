@@ -6,11 +6,6 @@
     },
     {
       "fpu": "hard"
-    },
-    {
-      "CCFLAGS": [
-        "-NRF_MCU=NRF52832"
-      ]
     }
   ]
 }
