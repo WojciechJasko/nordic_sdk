@@ -16,6 +16,7 @@ class EnvBuilder(object):
         'PROGSUFFIX':  str(),
         'CCFLAGS':     list(),
         'CFLAGS':      list(),
+        'LINKFLAGS':   list(),
     }
 
     def __init__(self, env):
