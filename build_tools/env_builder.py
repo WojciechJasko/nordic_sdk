@@ -1,6 +1,8 @@
 import os
 import logging
 
+from copy import deepcopy
+
 class EnvBuilder(object):
     SCONS_DEFAULTS = {
         'CC':          str(),
@@ -27,24 +29,33 @@ class EnvBuilder(object):
             if key not in self.env:
                 env[key] = value
 
+        env['NORDIC_BUILD_SYSTEM'] = dict()
+
 
     def create(self, desc):
         # Create a copy
-        new = self.env.Clone()
+        new         = self.env.Clone()
+        local_desc  = deepcopy(desc)
 
         self.default_update(new)
 
-        if 'fpu' in desc:
-            self.fpu_update(new, desc.pop('fpu'))
+        fpu = local_desc.pop('fpu', None)
+        new['NORDIC_BUILD_SYSTEM']['fpu'] = fpu
+        if fpu:
+            self.fpu_update(new, fpu)
 
-        if 'target' in desc:
-            self.target_update(new, desc.pop('target'))
+        target = local_desc.pop('target', None)
+        new['NORDIC_BUILD_SYSTEM']['target'] = target
+        if target:
+            self.target_update(new, target)
 
-        if 'build_type' in desc:
-            self.build_type_update(new, desc.pop('build_type'))
+        build_type = local_desc.pop('build_type', None)
+        new['NORDIC_BUILD_SYSTEM']['build_type'] = build_type
+        if build_type:
+            self.build_type_update(new, build_type)
 
-        for i in xrange(len(desc)):
-            key, value = desc.popitem()
+        for i in xrange(len(local_desc)):
+            key, value = local_desc.popitem()
 
             if key in EnvBuilder.SCONS_DEFAULTS:
                 if isinstance(value, list):
@@ -72,6 +83,9 @@ class EnvBuilder(object):
             env["CCFLAGS"].extend([
                                   "-O3",
                                 ])
+
+        elif choice == "unit_test":
+            pass
 
         else:
             raise Exception("Not supported build type: {}".format(choice))

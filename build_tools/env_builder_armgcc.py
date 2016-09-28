@@ -4,6 +4,7 @@ class EnvBuilderArmgcc(EnvBuilder):
 
     def default_update(self, env):
         super(EnvBuilderArmgcc, self).default_update(env)
+        env['NORDIC_BUILD_SYSTEM']['toolchain'] = 'armgcc'
 
         env["CCFLAGS"].extend([
                               "-mthumb",
