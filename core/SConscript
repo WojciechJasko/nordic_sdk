@@ -1,7 +1,7 @@
 Import('env')
 
 includes = [
-    'include'
+    'include',
     'include/cmsis'
 ]
 

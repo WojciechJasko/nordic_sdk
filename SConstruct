@@ -4,17 +4,21 @@ from build_tools.env_builder_armgcc import EnvBuilderArmgcc
 
 tools = ['gcc', 'g++', 'ar']
 
+common_env   = Environment(tools = tools, ENV = os.environ)
+
 with open('build_tools/envs.json', "r") as f:
-    desc = json.load(f)
+    targets = json.load(f)
 
-common_env = Environment(tools = tools, ENV = os.environ)
+env_builders = {
+    'armgcc': EnvBuilderArmgcc
+}
 
-armgcc_builder = EnvBuilderArmgcc(common_env)
+for toolchain, env_builder in env_builders.iteritems():
+    for name, target in targets.iteritems():
+        env = env_builder.build(common_env, target)
 
-nrf52832_env = armgcc_builder.create(desc['NRF52832'])
-
-nrf52832_env.VariantDir('build', 'core')
-env = nrf52832_env
-nrf52832_env.SConscript('build/SConscript', exports=['env'])
-
-
+        path = 'build/core/{target_name}/{toolchain}/{build_type}'.format(target_name    = name,
+                                                                          toolchain      = toolchain,
+                                                                          build_type     = 'release')
+        env.VariantDir(path, 'core', duplicate=0)
+        env.SConscript(path + '/SConscript', exports=['env'])

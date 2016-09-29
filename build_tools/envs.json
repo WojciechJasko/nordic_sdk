@@ -1,5 +1,5 @@
 {
-  "NRF52832": {
+  "nrf52832": {
     "target": "cortex_m4",
     "fpu": "hard",
     "CPPDEFINES": [
