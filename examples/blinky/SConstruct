@@ -1,43 +1,56 @@
 import os
+import SCons.Defaults
+import SCons.Tool
+import SCons.Util
 
 tools = ['gcc', 'g++', 'ar']
 
-env = Environment(ENV = os.environ)
+env = Environment(tools = tools, ENV = os.environ)
+SCons.Tool.createProgBuilder(env)
+print env
 
-env['CC']           = 'arm-none-eabi-gcc'
-env['CXX']          = 'arm-none-eabi-c++'
-env['AS']           = 'arm-none-eabi-as'
-env['AR']           = 'arm-none-eabi-ar'
-env['LD']           = 'arm-none-eabi-ld'
-env['NM']           = 'arm-none-eabi-nm'
-env['OBJDUMP']      = 'arm-none-eabi-objdump'
+keil5_path = "C:\\keil_v5\\ARM\\ARMCC\\BIN\\"
+
+env['CC']           = keil5_path + "Armcc.Exe"
+env['CXX']          = keil5_path + "Armcc.Exe"
+env['AS']           = keil5_path + "Armasm.Exe"
+env['AR']           = keil5_path + "ArmAr.Exe"
+env['LD']           = keil5_path + "ArmLink.Exe"
+env['NM']           = ""
+env['OBJDUMP']      = keil5_path + "FromElf.Exe"
 env['OBJCOPY']      = 'arm-none-eabi-objcopy'
 env['SIZE']         = 'arm-none-eabi-size'
 env['RANLIB']       = 'arm-none-eabi-ranlib'
 env['PROGSUFFIX']   = '.elf'
 
+env['CCCOM']     = r'$CC -I C:\keil_v5\ARM\INC -I C:\keil_v5\ARM\INC\ARM $CFLAGS $CCFLAGS $CPPFLAGS $_CPPDEFFLAGS $_CPPINCFLAGS -c -o $TARGET $SOURCES'
+
+env['ASFLAGS']   = SCons.Util.CLVar('')
+env['ASPPFLAGS'] = '$ASFLAGS'
+env['ASCOM']     = '$AS --cpu=Cortex-M0 $ASFLAGS -o $TARGET $SOURCES'
+env['ASPPCOM']   = '$CC $ASPPFLAGS $CPPFLAGS $_CPPDEFFLAGS $_CPPINCFLAGS -c -o $TARGET $SOURCES ../../core/mcu/arm/arm_startup_nrf51.S'
+
+env['LINK']        = keil5_path + "ArmLink.Exe"
+env['LINKFLAGS']   = SCons.Util.CLVar('')
+env['LINKCOM']     = r'$LINK --libpath C:\keil_v5\ARM\ARMCC\LIB $LINKFLAGS --cpu=Cortex-M0 -o $TARGET $SOURCES $LIBS'
+
+
+env['PROGSUFFIX']  = '.afx'
+
 # include locations
 env['CPPPATH'] = [
     '.',
-    '../../core/mcu/cmsis/include',
-    '../../core/mcu'
+    '../../core/include/',
+    '../../core/include/cmsis',
+    '../../core/include/mcu'
     ]
 
 
 env['CCFLAGS'] = ['-O2',
-                  '-Wall',
-                  '-mlittle-endian',
-                  '-mthumb',
-                  '-mcpu=cortex-m0',
-                  '-mthumb-interwork',
-                  '-ffreestanding',
-                  '-nostdlib']
+                  '--cpu=Cortex-M0']
 
-env['LINKFLAGS'] = ['-mlittle-endian',
-                    '-mthumb',
-                    '-mcpu=cortex-m0',
-                    '-mthumb-interwork',
-                    '-Tblinky_gcc_nrf51.ld']
+env['LINKFLAGS'] = ['--cpu=Cortex-M0',
+                    '--scatter=nrf52832_xxaa.sct']
 
 # defines
 env['CPPDEFINES'] = [
@@ -48,7 +61,7 @@ prg = env.Program(
     target = 'core',
     source = [
         'main.c',
-        '../../core/mcu/gcc/gcc_startup_nrf51.S',
-        '../../core/mcu/system_nrf51.c'
+        '../../core/mcu/system_nrf51.c',
+        '../../core/mcu/arm/arm_startup_nrf51.o'
     ]
 )
