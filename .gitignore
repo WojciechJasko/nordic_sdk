@@ -41,3 +41,5 @@
 
 # Python compiled
 *.pyc
+
+*.d

@@ -1,0 +1,25 @@
+Import('env', 'build_desc')
+
+includes = [
+    'include',
+    'include/cmsis'
+]
+
+sources = [
+    'error/nrf_fault.c',
+    'error/nrf_assert.c',
+    'error/nrf_error.c',
+]
+
+if build_desc['target_name'].startswith('nrf51'):
+    sources.append('mcu/system_nrf51.c')
+
+elif build_desc['target_name'].startswith('nrf52'):
+    sources.append('mcu/system_nrf52.c')
+
+env.Append(CPPPATH=includes)
+
+prg = env.Library(
+    target = 'core',
+    source = sources
+)
