@@ -1,0 +1,3 @@
+[submodule "test_tools/cmock"]
+	path = test_tools/cmock
+	url = https://github.com/WojciechJasko/CMock.git
