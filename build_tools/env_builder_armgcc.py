@@ -2,8 +2,9 @@ from env_builder import EnvBuilder
 
 class EnvBuilderArmgcc(EnvBuilder):
 
-    def default_update(self, env):
-        super(EnvBuilderArmgcc, self).default_update(env)
+    @classmethod
+    def default_update(cls, env):
+        super(EnvBuilderArmgcc, cls).default_update(env)
 
         env["CCFLAGS"].extend([
                               "-mthumb",
@@ -43,8 +44,9 @@ class EnvBuilderArmgcc(EnvBuilder):
         env["PROGSUFFIX"]   = ".elf"
 
 
-    def fpu_update(self, env, choice):
-        super(EnvBuilderArmgcc, self).fpu_update(env, choice)
+    @classmethod
+    def fpu_update(cls, env, choice):
+        super(EnvBuilderArmgcc, cls).fpu_update(env, choice)
 
         if choice == 'hard':
             env["CCFLAGS"].extend([
@@ -61,8 +63,9 @@ class EnvBuilderArmgcc(EnvBuilder):
             raise Exception("Not supported fpu: {}".format(choice))
 
 
-    def target_update(self, env, choice):
-        super(EnvBuilderArmgcc, self).target_update(env, choice)
+    @classmethod
+    def target_update(cls, env, choice):
+        super(EnvBuilderArmgcc, cls).target_update(env, choice)
 
         if choice == 'cortex_m0':
             env["CCFLAGS"].extend([
