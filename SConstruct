@@ -17,8 +17,12 @@ for toolchain, env_builder in env_builders.iteritems():
     for name, target in targets.iteritems():
         env = env_builder.build(common_env, target)
 
-        path = 'build/core/{target_name}/{toolchain}/{build_type}'.format(target_name    = name,
-                                                                          toolchain      = toolchain,
-                                                                          build_type     = 'release')
+        build_desc = {
+            'target_name':  name,
+            'toolchain':    toolchain,
+            'build_type':   'release',
+        }
+
+        path = '_build/core/{target_name}/{toolchain}/{build_type}'.format(**build_desc)
         env.VariantDir(path, 'core', duplicate=0)
-        env.SConscript(path + '/SConscript', exports=['env'])
+        env.SConscript(path + '/SConscript', exports=['env', 'build_desc'])
