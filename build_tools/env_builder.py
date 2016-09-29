@@ -29,8 +29,6 @@ class EnvBuilder(object):
             if key not in self.env:
                 env[key] = value
 
-        env['NORDIC_BUILD_SYSTEM'] = dict()
-
 
     def create(self, desc):
         # Create a copy
@@ -40,17 +38,14 @@ class EnvBuilder(object):
         self.default_update(new)
 
         fpu = local_desc.pop('fpu', None)
-        new['NORDIC_BUILD_SYSTEM']['fpu'] = fpu
         if fpu:
             self.fpu_update(new, fpu)
 
         target = local_desc.pop('target', None)
-        new['NORDIC_BUILD_SYSTEM']['target'] = target
         if target:
             self.target_update(new, target)
 
         build_type = local_desc.pop('build_type', None)
-        new['NORDIC_BUILD_SYSTEM']['build_type'] = build_type
         if build_type:
             self.build_type_update(new, build_type)
 

@@ -6,7 +6,7 @@
 #define NRF_NVIC_H__
 
 #include <stdint.h>
-#include "nrf.h"
+#include <nrf_core.h>
 
 #ifdef __cplusplus
 extern "C" {
