@@ -19,7 +19,9 @@ elif build_desc['target_name'].startswith('nrf52'):
 
 env.Append(CPPPATH=includes)
 
-prg = env.Library(
+env.CMock('core', source = ['include/nrf_assert.h', 'include/nrf_error.h'])
+
+env.Library(
     target = 'core',
     source = sources
 )
