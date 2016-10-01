@@ -33,6 +33,9 @@ def setup_tools(env):
     if not env.has_key('HEXFORMAT'):
         env['HEXFORMAT'] = 'ihex'
 
+    if not env.has_key('BUILD_TYPE'):
+        env['BUILD_TYPE'] = 'release'
+
     env.Replace(CC      = "arm-none-eabi-gcc")
     env.Replace(CXX     = "arm-none-eabi-g++")
     env.Replace(AS      = "arm-none-eabi-as")
@@ -115,6 +118,24 @@ def add_flags(env):
 
     else:
         raise Exception("Not supported fpu: {}".format(TARGETS[env['MCU']]['fpu']))
+
+    # Build Type
+    if env['BUILD_TYPE'] == "debug":
+        env.Append(CCFLAGS = [
+                              "-O0",
+                            ])
+
+        env.Append(CPPDEFINES = [
+                       "NRF_DEBUG",
+                    ])
+
+    elif env['BUILD_TYPE'] == "release":
+        env.Append(CCFLAGS = [
+                              "-O3",
+                            ])
+
+    else:
+        raise Exception("Not supported build type: {}".format(env['BUILD_TYPE']))
 
 
 def add_builders(env):

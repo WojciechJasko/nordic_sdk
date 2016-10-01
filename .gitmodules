@@ -1,3 +1,6 @@
 [submodule "test_tools/cmock"]
 	path = test_tools/cmock
 	url = https://github.com/WojciechJasko/CMock.git
+[submodule "test_tools/unity"]
+	path = test_tools/unity
+	url = https://github.com/WojciechJasko/Unity.git
