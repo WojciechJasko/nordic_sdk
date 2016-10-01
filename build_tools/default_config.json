@@ -1,0 +1,6 @@
+{
+  "NRF52832": {
+    "target": "cortex_m4",
+    "fpu": "hard"
+  }
+}

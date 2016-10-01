@@ -1,4 +1,4 @@
-Import('env', 'build_desc')
+Import('env')
 
 includes = [
     'include',
@@ -11,10 +11,10 @@ sources = [
     'error/nrf_error.c',
 ]
 
-if build_desc['target_name'].startswith('nrf51'):
+if env['MCU'].startswith('nrf51'):
     sources.append('mcu/system_nrf51.c')
 
-elif build_desc['target_name'].startswith('nrf52'):
+elif env['MCU'].startswith('nrf52'):
     sources.append('mcu/system_nrf52.c')
 
 env.Append(CPPPATH=includes)
