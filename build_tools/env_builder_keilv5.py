@@ -8,44 +8,46 @@ class EnvBuilderArmgcc(EnvBuilder):
         keil5_path = env["KEIL5"]
 
         env["CCFLAGS"].extend([
-                              "-mthumb",
-                              "-mabi=aapcs",
-                              "-Wall",
-                              "-Werror",
-                              "-g3",
-                              "-ffunction-sections",
-                              "-fdata-sections",
-                              "-fno-strict-aliasing",
-                              "-fno-builtin",
-                              "--short-enums",
-                              "-MP",
-                              "-MD"
+                              "-O2"
+                              "-g",
                             ])
 
-        env["LINKFLAGS"].extend([
-                              "-mthumb",
-                              "-mabi=aapcs",
-                              "-Wl",
-                              "--gc-sections",
-                              "--specs=nano.specs",
-                              "-lc",
-                              "-lnosys"
-                            ])
-
-        env["CC"]           = keil5_path + "ARM\ARMCC\BIN\Armcc.Exe"
-        env["CXX"]          = keil5_path + "ARM\ARMCC\BIN\Armcc.Exe"
-        env["AS"]           = keil5_path + "ARM\ARMCC\BIN\Armasm.Exe"
-        env["AR"]           = keil5_path + "ARM\ARMCC\BIN\ArmAr.Exe"
-        env["LD"]           = keil5_path + "ARM\ARMCC\BIN\ArmLink.Exe"
-        env["NM"]           = ""
-        env["OBJDUMP"]      = keil5_path + "ARM\ARMCC\BIN\FromElf.Exe"
-        env["OBJCOPY"]      = ""
-        env["SIZE"]         = ""
-        env["RANLIB"]       = ""
-        env["PROGSUFFIX"]   = ".elf"
+        env['CC']           = keil5_path + "ARMCC\\BIN\\Armcc.Exe"
+        env['CXX']          = keil5_path + "ARMCC\\BIN\\Armcc.Exe"
+        env['AS']           = keil5_path + "ARMCC\\BIN\\Armasm.Exe"
+        env['AR']           = keil5_path + "ARMCC\\BIN\\ArmAr.Exe"
+        env['LD']           = keil5_path + "ARMCC\\BIN\\ArmLink.Exe"
+        env['LINK']         = keil5_path + "ARMCC\\BIN\\ArmLink.Exe"
+        env['NM']           = ''
+        env['OBJDUMP']      = keil5_path + "ARMCC\\BIN\\FromElf.Exe"
+        env['OBJCOPY']      = ''
+        env['SIZE']         = ''
+        env['RANLIB']       = ''
+        env["PROGSUFFIX"]   = ".axf"
 
         env["ASFLAGS"]      = ""
         env["ASCOM"]        = " '$AS $ASFLAGS -o $TARGET $SOURCES'",
+
+        env['CCCOM']     = r'$CC $CFLAGS $CCFLAGS $CPPFLAGS $_CPPDEFFLAGS $_CPPINCFLAGS -c -o $TARGET $SOURCES'
+
+        env['ASFLAGS']   = SCons.Util.CLVar('')
+        env['ASPPFLAGS'] = '$ASFLAGS'
+
+        bld = Builder(action = '$AS $ASFLAGS $CFLAGS $CCFLAGS -o $TARGET $SOURCES')
+        env['BUILDERS']['ASMCOMM'] = bld
+
+        def generate_hex(source, target, env, for_signature):
+            return '$OBJDUMP --i32 %s -o %s '%(source[0], target[0])
+
+        env.Append(BUILDERS={
+            'Objdump': Builder(
+                       generator=generate_hex,
+                       suffix='.hex',
+                       src_suffix='.afx')})
+
+        env['LINKFLAGS']   = SCons.Util.CLVar('')
+        env['LINKCOM']     = r'$LINK --libpath $keil5_path+ARMCC\LIB $LINKFLAGS -o $TARGET $SOURCES $LIBS'
+
 
 
     def fpu_update(self, env, choice):
