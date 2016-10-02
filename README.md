@@ -20,8 +20,3 @@ Nordic_SDK/
 +-- drivers
 +-- examples
 ```
-### TODO List
-- [ ] Create blinky_example using build_tools/armgcc.py
-- [ ] Create build_tools/keil5.py
-- [ ] Create blinky_example using build_tools/keil5.py
-- [ ] Add doxygen support

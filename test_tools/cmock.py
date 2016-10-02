@@ -11,13 +11,12 @@ def exists(env):
 
 def add_builders(env):
     def cmock_emitter(target, source, env): 
-        base    = str(target[0])
         target  = list()
         for s in source:
             file            = os.path.basename(str(s))
             file_name, ext  = os.path.splitext(file)
-            target.append(base + '_cmock\cmock_' + file_name + '.h')
-            target.append(base + '_cmock\cmock_' + file_name + '.c')
+            target.append('cmock\cmock_' + file_name + '.h')
+            target.append('cmock\cmock_' + file_name + '.c')
         return target, source
 
     def cmock_generator(source, target, env, for_signature):
