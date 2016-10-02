@@ -38,8 +38,8 @@ def setup_tools(env):
     env.Replace(NM      = "arm-none-eabi-nm")
     env.Replace(OBJDUMP = "arm-none-eabi-objdump")
     env.Replace(OBJCOPY = "arm-none-eabi-objcopy")
-    env.Replace(RANLIB  = "arm-none-eabi-size")
-    env.Replace(SIZE    = "arm-none-eabi-ranlib")
+    env.Replace(RANLIB  = "arm-none-eabi-ranlib")
+    env.Replace(SIZE    = "arm-none-eabi-size")
     env['PROGSUFFIX']   = '.elf'
 
 
