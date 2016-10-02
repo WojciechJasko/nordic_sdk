@@ -19,7 +19,7 @@ elif env['MCU'].startswith('nrf52'):
 
 env.Append(CPPPATH=includes)
 
-env.Keil5Project('blinky_example')
+env.Keil5Project('blinky_example', src=sources)
 
 env.CMock('core', source = ['include/nrf_assert.h', 'include/nrf_error.h'])
 

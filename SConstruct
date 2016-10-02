@@ -20,5 +20,5 @@ if env['BUILD_TYPE'] == "debug":
 
 
 path = '_build/'
-env.VariantDir(path, 'core', duplicate=0)
+env.VariantDir(path, 'core')#, duplicate=0)
 env.SConscript(path + '/SConscript', exports=['env'])
