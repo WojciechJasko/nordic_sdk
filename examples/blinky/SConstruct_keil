@@ -1,0 +1,90 @@
+import os
+import SCons.Defaults
+import SCons.Tool
+import SCons.Util
+
+
+tools = ['gcc', 'g++', 'ar']
+
+env = Environment(tools = tools, ENV = os.environ)
+SCons.Tool.createProgBuilder(env)
+print env
+
+keil5_path = r'C:\\keil_v5\\ARM\\'
+
+env['CC']           = keil5_path + "ARMCC\\BIN\\Armcc.Exe"
+env['CXX']          = keil5_path + "ARMCC\\BIN\\Armcc.Exe"
+env['AS']           = keil5_path + "ARMCC\\BIN\\Armasm.Exe"
+env['AR']           = keil5_path + "ARMCC\\BIN\\ArmAr.Exe"
+env['LD']           = keil5_path + "ARMCC\\BIN\\ArmLink.Exe"
+env['LINK']         = keil5_path + "ARMCC\\BIN\\ArmLink.Exe"
+env['NM']           = ''
+env['OBJDUMP']      = keil5_path + "ARMCC\\BIN\\FromElf.Exe"
+env['OBJCOPY']      = ''
+env['SIZE']         = ''
+env['RANLIB']       = ''
+env['PROGSUFFIX']   = '.elf'
+
+env['CPPPATH'] = [
+    keil5_path + r"INC",
+    keil5_path + r"INC\ARM"
+]
+
+env['CCCOM']     = r'$CC $CFLAGS $CCFLAGS $CPPFLAGS $_CPPDEFFLAGS $_CPPINCFLAGS -c -o $TARGET $SOURCES'
+
+env['ASFLAGS']   = SCons.Util.CLVar('')
+env['ASPPFLAGS'] = '$ASFLAGS'
+
+bld = Builder(action = '$AS --cpu=Cortex-M0 $ASFLAGS -o $TARGET $SOURCES')
+env['BUILDERS']['ASM'] = bld
+
+def generate_hex(source, target, env, for_signature):
+    return '$OBJDUMP --i32 %s -o %s '%(source[0], target[0])
+
+env.Append(BUILDERS={
+    'Objdump': Builder(
+               generator=generate_hex,
+               suffix='.hex',
+               src_suffix='.afx')})
+
+
+
+env['LINKFLAGS']   = SCons.Util.CLVar('')
+env['LINKCOM']     = r'$LINK --libpath C:\keil_v5\ARM\ARMCC\LIB $LINKFLAGS --cpu=Cortex-M0 -o $TARGET $SOURCES $LIBS'
+
+
+env['PROGSUFFIX']  = '.afx'
+
+# include locations
+env['CPPPATH'] += [
+    '.',
+    '../../core/include/',
+    '../../core/include/cmsis',
+    '../../core/include/mcu'
+    ]
+
+
+env['CCFLAGS'] = ['-O2',
+                  '-g',
+                  '--cpu=Cortex-M0']
+
+env['LINKFLAGS'] = ['--cpu=Cortex-M0',
+                    '--scatter=nrf52832_xxaa.sct']
+
+# defines
+env['CPPDEFINES'] = [
+    'NRF_MCU=NRF52832'
+]
+
+env.ASM('../../core/mcu/arm/arm_startup_nrf51.o', '../../core/mcu/arm/arm_startup_nrf51.s')
+prg = env.Program(
+    target = 'core',
+    source = [
+        'main.c',
+        '../../core/mcu/system_nrf51.c',
+        '../../core/mcu/arm/arm_startup_nrf51.o'
+    ]
+)
+
+env.Objdump('core.afx')
+

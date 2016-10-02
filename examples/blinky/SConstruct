@@ -1,90 +1,66 @@
 import os
-import SCons.Defaults
-import SCons.Tool
-import SCons.Util
-
 
 tools = ['gcc', 'g++', 'ar']
 
-env = Environment(tools = tools, ENV = os.environ)
-SCons.Tool.createProgBuilder(env)
-print env
+def ProgAndHex(env, target, source):
+    env['HEXSUFFIX'] = '.hex'
+    elffile = env.Program(
+        target = target,
+        source = source
+    )
+    hexfile = env.Command(target, source, "$OBJCOPY -O ihex $TARGET$PROGSUFFIX $TARGET$HEXSUFFIX")
+    #print env.Dump()
+    Depends( hexfile, elffile )
+    return elffile
 
-keil5_path = r'C:\\keil_v5\\ARM\\'
+AddMethod(Environment, ProgAndHex)
+env = Environment(ENV = os.environ)
 
-env['CC']           = keil5_path + "ARMCC\\BIN\\Armcc.Exe"
-env['CXX']          = keil5_path + "ARMCC\\BIN\\Armcc.Exe"
-env['AS']           = keil5_path + "ARMCC\\BIN\\Armasm.Exe"
-env['AR']           = keil5_path + "ARMCC\\BIN\\ArmAr.Exe"
-env['LD']           = keil5_path + "ARMCC\\BIN\\ArmLink.Exe"
-env['LINK']         = keil5_path + "ARMCC\\BIN\\ArmLink.Exe"
-env['NM']           = ''
-env['OBJDUMP']      = keil5_path + "ARMCC\\BIN\\FromElf.Exe"
-env['OBJCOPY']      = ''
-env['SIZE']         = ''
-env['RANLIB']       = ''
+env['CC']           = 'arm-none-eabi-gcc'
+env['CXX']          = 'arm-none-eabi-c++'
+env['AS']           = 'arm-none-eabi-as'
+env['AR']           = 'arm-none-eabi-ar'
+env['LD']           = 'arm-none-eabi-ld'
+env['NM']           = 'arm-none-eabi-nm'
+env['OBJDUMP']      = 'arm-none-eabi-objdump'
+env['OBJCOPY']      = 'arm-none-eabi-objcopy'
+env['SIZE']         = 'arm-none-eabi-size'
+env['RANLIB']       = 'arm-none-eabi-ranlib'
 env['PROGSUFFIX']   = '.elf'
 
-env['CPPPATH'] = [
-    keil5_path + r"INC",
-    keil5_path + r"INC\ARM"
-]
-
-env['CCCOM']     = r'$CC $CFLAGS $CCFLAGS $CPPFLAGS $_CPPDEFFLAGS $_CPPINCFLAGS -c -o $TARGET $SOURCES'
-
-env['ASFLAGS']   = SCons.Util.CLVar('')
-env['ASPPFLAGS'] = '$ASFLAGS'
-
-bld = Builder(action = '$AS --cpu=Cortex-M0 $ASFLAGS -o $TARGET $SOURCES')
-env['BUILDERS']['ASM'] = bld
-
-def generate_hex(source, target, env, for_signature):
-    return '$OBJDUMP --i32 %s -o %s '%(source[0], target[0])
-
-env.Append(BUILDERS={
-    'Objdump': Builder(
-               generator=generate_hex,
-               suffix='.hex',
-               src_suffix='.afx')})
-
-
-
-env['LINKFLAGS']   = SCons.Util.CLVar('')
-env['LINKCOM']     = r'$LINK --libpath C:\keil_v5\ARM\ARMCC\LIB $LINKFLAGS --cpu=Cortex-M0 -o $TARGET $SOURCES $LIBS'
-
-
-env['PROGSUFFIX']  = '.afx'
-
 # include locations
-env['CPPPATH'] += [
+env['CPPPATH'] = [
     '.',
     '../../core/include/',
     '../../core/include/cmsis',
     '../../core/include/mcu'
     ]
 
-
 env['CCFLAGS'] = ['-O2',
-                  '-g',
-                  '--cpu=Cortex-M0']
+                  '-Wall',
+                  '-mlittle-endian',
+                  '-mthumb',
+                  '-mcpu=cortex-m0',
+                  '-mthumb-interwork',
+                  '-ffreestanding',
+                  '-nostdlib']
 
-env['LINKFLAGS'] = ['--cpu=Cortex-M0',
-                    '--scatter=nrf52832_xxaa.sct']
+env['LINKFLAGS'] = ['-mlittle-endian',
+                    '-mthumb',
+                    '-mcpu=cortex-m0',
+                    '-mthumb-interwork',
+                    '-Tblinky_gcc_nrf51.ld']
 
 # defines
 env['CPPDEFINES'] = [
     'NRF_MCU=NRF52832'
 ]
 
-env.ASM('../../core/mcu/arm/arm_startup_nrf51.o', '../../core/mcu/arm/arm_startup_nrf51.s')
-prg = env.Program(
+env.ProgAndHex(
     target = 'core',
     source = [
         'main.c',
-        '../../core/mcu/system_nrf51.c',
-        '../../core/mcu/arm/arm_startup_nrf51.o'
+        '../../core/mcu/gcc/gcc_startup_nrf51.S',
+        '../../core/mcu/system_nrf51.c'
     ]
 )
-
-env.Objdump('core.afx')
-
