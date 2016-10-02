@@ -10,7 +10,6 @@ def generate(env, **kwargs):
     setup_environment(env)
     setup_tools(env)
     add_flags(env)
-    add_builders(env)
 
 
 def exists(env):
@@ -19,6 +18,8 @@ def exists(env):
 
 def setup_environment(env):
     assert env.has_key('MCU'), "You need to specify processor (MCU=<cpu>)"
+    assert env.has_key('BUILD_TYPE'), "You need to specify build type (BUILD_TYPE=<build_type>)"
+
     path = env.get('NORDIC_CONFIG', os.path.join(os.path.dirname(__file__), 'default_config.json'))
     with open(path, 'r') as f:
         global TARGETS
@@ -26,15 +27,8 @@ def setup_environment(env):
 
 
 def setup_tools(env):
-    tools = ['gcc','g++','ar',]
-    for tool in tools:
+    for tool in ['gcc','g++','ar',]:
         env.Tool(tool)
-
-    if not env.has_key('HEXFORMAT'):
-        env['HEXFORMAT'] = 'ihex'
-
-    if not env.has_key('BUILD_TYPE'):
-        env['BUILD_TYPE'] = 'release'
 
     env.Replace(CC      = "arm-none-eabi-gcc")
     env.Replace(CXX     = "arm-none-eabi-g++")
@@ -50,7 +44,6 @@ def setup_tools(env):
 
 
 def add_flags(env):
-    assert(env['MCU'])
     # Common
     env.Append(CCFLAGS = [
                             "-mthumb",
@@ -75,10 +68,6 @@ def add_flags(env):
                             "--specs=nano.specs",
                             "-lc",
                             "-lnosys"
-                        ])
-
-    env.Append(CPPDEFINES = [
-                            env['MCU']
                         ])
 
     global TARGETS
@@ -125,10 +114,6 @@ def add_flags(env):
                               "-O0",
                             ])
 
-        env.Append(CPPDEFINES = [
-                       "NRF_DEBUG",
-                    ])
-
     elif env['BUILD_TYPE'] == "release":
         env.Append(CCFLAGS = [
                               "-O3",
@@ -136,7 +121,3 @@ def add_flags(env):
 
     else:
         raise Exception("Not supported build type: {}".format(env['BUILD_TYPE']))
-
-
-def add_builders(env):
-    pass

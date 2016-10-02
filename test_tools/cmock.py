@@ -6,7 +6,7 @@ def generate(env, **kwargs):
 
 
 def exists(env):
-    return 1
+    return env.Detect('ruby')
 
 
 def add_builders(env):
@@ -31,8 +31,8 @@ def add_builders(env):
         return result
 
     env.Append(BUILDERS={
-                        'CMock': Builder(
-                            generator   = cmock_generator,
-                            emitter     = cmock_emitter,
-                            src_suffix  = '.h'),
+                            'CMock': Builder(
+                                generator   = cmock_generator,
+                                emitter     = cmock_emitter,
+                                src_suffix  = '.h'),
                         })

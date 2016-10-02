@@ -6,7 +6,7 @@ def generate(env, **kwargs):
 
 
 def exists(env):
-    return 1
+    return env.Detect('ruby')
 
 
 def add_builders(env):
@@ -27,8 +27,8 @@ def add_builders(env):
         return result
 
     env.Append(BUILDERS={
-                        'Unity': Builder(
-                            generator   = unity_generator,
-                            emitter     = unity_emitter,
-                            src_suffix  = '.c'),
+                            'Unity': Builder(
+                                generator   = unity_generator,
+                                emitter     = unity_emitter,
+                                src_suffix  = '.c'),
                         })
