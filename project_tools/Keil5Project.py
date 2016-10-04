@@ -4,7 +4,6 @@ from utils          import JinjaTemplateManager
 
 from SCons.Node     import Python
 from SCons.Builder  import Builder
-from SCons.Defaults import processDefines
 
 
 def generate(env, **kwargs):
@@ -26,27 +25,19 @@ def add_builders(env):
         data['AdsDevice4']          = 'Cortex-M4'
         data['RvdsVP']              = '2'
         data['Cpu']                 = 'IROM(0x00000000,0x80000) IRAM(0x20000000,0x10000) CPUTYPE("Cortex-M4") FPU2 CLOCK(64000000) ELITTLE'
-        data['regview_file']        = 'SVD\\nrf52.xml' #TODO
+        data['regview_file']        = '$$Device:nRF52832_xxAA$\\SVD\\nrf52.xml'
         data['TargetDllArguments']  = '-MPU'
 
         data['ram']     = {
-                            'dev_size': '0x10000',
-                            'dev_start': '0x0',
-                            'end': '0x7ffff',
-                            'end_next_byte': '0x20010000',
-                            'size': '0xec38',
-                            'start': '0x200013c8'
+                            'size'  : '0x10000',
+                            'start' : '0x20000000'
                             }
         data['rom']     = {
-                            'dev_size': '0x80000',
-                            'dev_start': '0x20000000',
-                            'end': '0x2000ffff',
-                            'end_next_byte': '0x80000',
-                            'size': '0x61000',
-                            'start': '0x1f000'
+                            'size'  : '0x80000',
+                            'start' : '0x00000'
                             }
 
-        data['defines']     = processDefines(env.get('CPPDEFINES', []))
+        data['defines']     = env.get('CPPDEFINES', [])
         data['includes']    = env.get('CPPPATH', [])
 
         data['src'] = list()

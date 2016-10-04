@@ -1,9 +1,21 @@
 import os
 
+vars = Variables()
+vars.AddVariables(
+    EnumVariable('MCU',
+                 'Set MCU',
+                 'NRF52832',
+                 allowed_values=('NRF52832', 'NRF51822')),
+    EnumVariable('BUILD_TYPE',
+                 'Set build type',
+                 'release',
+                 allowed_values=('release', 'debug'))
+)
+
+
 env = Environment(
     ENV         = os.environ,
-    MCU         = 'NRF52832',
-    BUILD_TYPE  = 'release',
+    variables   = vars,
     tools       = ['armgcc', 'cmock', 'unity', 'Keil5Project'],
     toolpath    = ['build_tools', 'test_tools', 'project_tools'],
 )
@@ -19,6 +31,8 @@ if env['BUILD_TYPE'] == "debug":
                 ])
 
 
-path = '_build/'
-env.VariantDir(path, 'core', duplicate=0)
-env.SConscript(path + '/SConscript', exports=['env'])
+env.VariantDir('_build/libs', 'core', duplicate=0)
+env.SConscript('_build/libs/SConscript', exports=['env'])
+
+# env.VariantDir('_build/cmock', 'core', duplicate=0)
+# env.SConscript('_build/cmock/SConscript', exports=['env'])

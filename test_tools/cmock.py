@@ -15,8 +15,8 @@ def add_builders(env):
         for s in source:
             file            = os.path.basename(str(s))
             file_name, ext  = os.path.splitext(file)
-            target.append('cmock\cmock_' + file_name + '.h')
-            target.append('cmock\cmock_' + file_name + '.c')
+            target.append('cmock_' + file_name + '.h')
+            target.append('cmock_' + file_name + '.c')
         return target, source
 
     def cmock_generator(source, target, env, for_signature):

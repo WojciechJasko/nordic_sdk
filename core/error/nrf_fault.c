@@ -10,10 +10,13 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 
 #include <nrf_fault.h>
+#include <nrf_assert.h>
 #include <nrf_error.h>
 #include <nrf_core.h>
+#include <nrf_macros.h>
 
 
 __WEAK void nrf_fault_handler(uint32_t id, uint32_t pc, uint32_t info)
@@ -35,7 +38,7 @@ __WEAK void nrf_fault_handler(uint32_t id, uint32_t pc, uint32_t info)
     switch (id)
     {
         case NRF_FAULT_ID_SDK_ASSERT:
-            m_error_data.info.p_error = (nrf_assert_info_t *)info;
+            m_error_data.info.p_assert = (nrf_assert_info_t *)info;
             break;
 
         case NRF_FAULT_ID_SDK_ERROR:

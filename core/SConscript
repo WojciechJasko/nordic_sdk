@@ -11,19 +11,20 @@ sources = [
     'error/nrf_error.c',
 ]
 
-if env['MCU'].startswith('nrf51'):
+if env['MCU'].startswith('NRF51'):
     sources.append('mcu/system_nrf51.c')
 
-elif env['MCU'].startswith('nrf52'):
+elif env['MCU'].startswith('NRF52'):
     sources.append('mcu/system_nrf52.c')
+
 
 env.Append(CPPPATH=includes)
 
-env.Keil5Project('blinky_example', src=sources)
+if 'CMock' in env['BUILDERS']:
+    env.CMock(source = ['include/nrf_assert.h', 'include/nrf_error.h'])
 
-env.CMock('core', source = ['include/nrf_assert.h', 'include/nrf_error.h'])
-
-env.Library(
-    target = 'core',
-    source = sources
-)
+if 'Library' in env['BUILDERS']:
+    env.Library(
+        target = 'core',
+        source = sources
+    )
