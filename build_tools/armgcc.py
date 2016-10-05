@@ -10,6 +10,7 @@ def generate(env, **kwargs):
     setup_environment(env)
     setup_tools(env)
     add_flags(env)
+    add_methods(env)
 
 
 def exists(env):
@@ -27,7 +28,7 @@ def setup_environment(env):
 
 
 def setup_tools(env):
-    for tool in ['gcc','g++','ar',]:
+    for tool in ['gcc','g++','ar']:
         env.Tool(tool)
 
     env.Replace(CC      = "arm-none-eabi-gcc")
@@ -41,6 +42,7 @@ def setup_tools(env):
     env.Replace(RANLIB  = "arm-none-eabi-ranlib")
     env.Replace(SIZE    = "arm-none-eabi-size")
     env['PROGSUFFIX']   = '.elf'
+
 
 
 def add_flags(env):
@@ -63,8 +65,8 @@ def add_flags(env):
     env.Append(LINKFLAGS = [
                             "-mthumb",
                             "-mabi=aapcs",
-                            "-Wl",
-                            "--gc-sections",
+                            #"-Wl",
+                            #"--gc-sections",
                             "--specs=nano.specs",
                             "-lc",
                             "-lnosys"
@@ -121,3 +123,18 @@ def add_flags(env):
 
     else:
         raise Exception("Not supported build type: {}".format(env['BUILD_TYPE']))
+
+
+def add_methods(env):
+    def Hex(env, target, source):
+        env['HEXSUFFIX'] = '.hex'
+        elffile = env.Program(
+            target=target,
+            source = source
+        )
+        hexfile = env.Command(target, source, "$OBJCOPY -O ihex $TARGET$PROGSUFFIX $TARGET$HEXSUFFIX")
+        env.Depends( hexfile, elffile )
+        #print env.Dump()
+        return elffile
+    env.AddMethod(Hex, "Hex")
+
