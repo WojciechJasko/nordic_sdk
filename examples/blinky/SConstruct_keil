@@ -12,12 +12,12 @@ print env
 
 keil5_path = r'C:\\keil_v5\\ARM\\'
 
-env['CC']           = keil5_path + "ARMCC\\BIN\\Armcc.Exe"
-env['CXX']          = keil5_path + "ARMCC\\BIN\\Armcc.Exe"
-env['AS']           = keil5_path + "ARMCC\\BIN\\Armasm.Exe"
-env['AR']           = keil5_path + "ARMCC\\BIN\\ArmAr.Exe"
-env['LD']           = keil5_path + "ARMCC\\BIN\\ArmLink.Exe"
-env['LINK']         = keil5_path + "ARMCC\\BIN\\ArmLink.Exe"
+env['CC']           = keil5_path + "ARM\\ARMCC\\BIN\\Armcc.Exe"
+env['CXX']          = keil5_path + "ARM\\ARMCC\\BIN\\Armcc.Exe"
+env['AS']           = keil5_path + "ARM\\ARMCC\\BIN\\Armasm.Exe"
+env['AR']           = keil5_path + "ARM\\ARMCC\\BIN\\ArmAr.Exe"
+env['LD']           = keil5_path + "ARM\\ARMCC\\BIN\\ArmLink.Exe"
+env['LINK']         = keil5_path + "ARM\\ARMCC\\BIN\\ArmLink.Exe"
 env['NM']           = ''
 env['OBJDUMP']      = keil5_path + "ARMCC\\BIN\\FromElf.Exe"
 env['OBJCOPY']      = ''
