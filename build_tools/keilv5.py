@@ -46,6 +46,7 @@ def setup_tools(env):
 
     env.Replace(CCFLAGS = "")
     env.Replace(LINKFLAGS = "")
+    env.Replace(ARFLAGS = "-r")
     env['PROGSUFFIX']   = '.axf'
 
     env['CCCOM']   = r'$CC $CFLAGS $CCFLAGS $CPPFLAGS $_CPPDEFFLAGS $_CPPINCFLAGS -c -o $TARGET $SOURCES'
@@ -57,7 +58,8 @@ def add_flags(env):
     # Common
     env.Append(CCFLAGS = [
                             "-O2",
-                            "-g"
+                            "-g",
+                            "--c99"
                         ])
 
     env.Append(LINKFLAGS = [
@@ -88,19 +90,18 @@ def add_flags(env):
         raise Exception("Not supported target: {}".format(TARGETS[env['MCU']]['target']))
 
     # FPU
-    #if TARGETS[env['MCU']]['fpu'] == 'hard':
-    #    env.Append(CCFLAGS = [
-    #                            "-mfloat-abi=hard",
-    #                            "-mfpu=fpv4-sp-d16",
-    #                        ])
-    #
-    #elif TARGETS[env['MCU']]['fpu'] == 'soft':
-    #    env.Append(CCFLAGS = [
-    #                            "-mfloat-abi=soft"
-    #                        ])
-    #
-    #else:
-    #    raise Exception("Not supported fpu: {}".format(TARGETS[env['MCU']]['fpu']))
+    if TARGETS[env['MCU']]['fpu'] == 'hard':
+        env.Append(CCFLAGS = [
+                                "--fpu=vfpv4_d16"
+                            ])
+
+    elif TARGETS[env['MCU']]['fpu'] == 'soft':
+        env.Append(CCFLAGS = [
+                                "--fpu=softvfp"
+                            ])
+
+    else:
+        raise Exception("Not supported fpu: {}".format(TARGETS[env['MCU']]['fpu']))
 
     # Build Type
     if env['BUILD_TYPE'] == "debug":

@@ -4,7 +4,7 @@ env = Environment(
     ENV         = os.environ,
     MCU         = 'NRF52832',
     BUILD_TYPE  = 'release',
-    tools       = ['armgcc', 'cmock', 'unity', 'keil5project'],
+    tools       = ['armgcc', 'cmock', 'unity', 'keilv5'],
     toolpath    = ['build_tools', 'test_tools', 'project_tools'],
 )
 
