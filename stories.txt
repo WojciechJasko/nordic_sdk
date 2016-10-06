@@ -1,0 +1,8 @@
+ - I want to build library for the given MCU, TOOLCHAIN and BUILD_TYPE
+ - I want to generate cmock
+ - I want to generate unity
+ - I want to build unittest application from unity and sources
+ - I want to create project from given libraries
+ - I want to create project from given files
+ - I want to create hex from given library and sources
+ - 

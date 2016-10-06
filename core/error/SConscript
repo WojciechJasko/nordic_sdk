@@ -1,0 +1,13 @@
+Import('env')
+
+sources = [
+    'nrf_fault.c',
+    'nrf_assert.c',
+    'nrf_error.c',
+]
+
+objects = list()
+for s in sources:
+    objects.append(env.Object(s))
+
+Return('objects')

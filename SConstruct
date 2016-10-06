@@ -4,7 +4,7 @@ env = Environment(
     ENV         = os.environ,
     MCU         = 'NRF52832',
     BUILD_TYPE  = 'release',
-    tools       = ['default', 'armgcc', 'keilv5', 'cmock', 'unity', 'Keil5Project'],
+    tools       = ['armgcc', 'cmock', 'unity', 'Keil5Project'],
     toolpath    = ['build_tools', 'test_tools', 'project_tools'],
 )
 
@@ -19,6 +19,4 @@ if env['BUILD_TYPE'] == "debug":
                 ])
 
 
-path = '_build/'
-env.VariantDir(path, 'core', duplicate=0)
-env.SConscript(path + '/SConscript', exports=['env'])
+env.SConscript('core/SConscript', exports=['env'])
