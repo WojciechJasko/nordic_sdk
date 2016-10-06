@@ -1,0 +1,22 @@
+Import('env')
+
+sources = list()
+objects = list()
+
+if env['MCU'].startswith('NRF51'):
+    s = File('mcu/system_nrf51.c')
+    sources.append(s)
+    objects.append(env.Object(s))
+
+elif env['MCU'].startswith('NRF52'):
+    s = File('mcu/system_nrf52.c')
+    sources.append(s)
+    objects.append(env.Object(s))
+
+
+
+result = {
+    'sources' : sources,
+    'objects' : objects
+}
+Return('result')

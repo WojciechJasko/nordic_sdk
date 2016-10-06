@@ -4,27 +4,25 @@ includes = [
     '#core/include',
     '#core/include/cmsis'
 ]
-
-sources = list()
-
-if env['MCU'].startswith('NRF51'):
-    sources.append('mcu/system_nrf51.c')
-
-elif env['MCU'].startswith('NRF52'):
-    sources.append('mcu/system_nrf52.c')
-
 env.Append(CPPPATH=includes)
 
-
-objects = env.SConscript('error/SConscript', exports=['env'])
-print objects
+mcu     = env.SConscript('mcu/SConscript',      exports=['env'])
+error   = env.SConscript('error/SConscript',    exports=['env'])
 
 library = env.Library(
     target = 'core',
-    source = sources + objects
+    source = mcu['objects'] + error['objects']
 )
 
-# env.Hex(
-#     target = 'core',
-#     source = sources
-# )
+cmocks = list()
+for h in ['include/nrf_error.h', 'include/nrf_assert.h', 'include/nrf_fault.h']:
+    cmocks.append(env.CMock(h))
+
+result = {
+    'sources'   : mcu['sources'] + error['sources'],
+    'objects'   : mcu['objects'] + error['objects'],
+    'includes'  : includes,
+    'cmocks'    : cmocks,
+    'library'   : library,
+}
+Return('result')

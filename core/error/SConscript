@@ -1,13 +1,17 @@
 Import('env')
 
 sources = [
-    'nrf_fault.c',
-    'nrf_assert.c',
-    'nrf_error.c',
+    File('nrf_assert.c'),
+    File('nrf_error.c'),
+    File('nrf_fault.c'),
 ]
 
 objects = list()
 for s in sources:
     objects.append(env.Object(s))
 
-Return('objects')
+result = {
+    'sources' : sources,
+    'objects' : objects,
+}
+Return('result')

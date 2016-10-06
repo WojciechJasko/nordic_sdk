@@ -4,7 +4,7 @@ env = Environment(
     ENV         = os.environ,
     MCU         = 'NRF52832',
     BUILD_TYPE  = 'release',
-    tools       = ['armgcc', 'cmock', 'unity', 'Keil5Project'],
+    tools       = ['armgcc', 'cmock', 'unity', 'keil5project'],
     toolpath    = ['build_tools', 'test_tools', 'project_tools'],
 )
 
@@ -19,4 +19,4 @@ if env['BUILD_TYPE'] == "debug":
                 ])
 
 
-env.SConscript('core/SConscript', exports=['env'])
+print env.SConscript('core/SConscript',  exports=['env'], variant_dir='_build', duplicate=0)
