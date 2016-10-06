@@ -32,7 +32,7 @@ if env['BUILD_TYPE'] == "debug":
 
 
 core = env.SConscript('core/SConscript', exports='env', variant_dir='_build', duplicate=0)
-env.Install('cmock', core['cmocks'])
-env.Install('libs', core['library'])
+env.Install('cmock',    core['cmocks'])
+env.Install('libs',     core['library'])
 
 env.SConscript('examples/SConscript', exports='env core')

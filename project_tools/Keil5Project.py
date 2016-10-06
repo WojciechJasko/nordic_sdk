@@ -2,7 +2,7 @@ import os
 
 from utils          import JinjaTemplateManager
 
-from SCons.Node     import Python
+from SCons.Node     import Python, FS
 from SCons.Builder  import Builder
 
 
@@ -42,6 +42,8 @@ def add_builders(env):
 
         data['src'] = list()
         for path in env.get('src', []):
+            if isinstance(path, FS.File):
+                path = str(path)
             data['src'].append({'name': os.path.basename(path), 'type': '1', 'path': path})
 
         return (target, [Python.Value(data)])
