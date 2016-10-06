@@ -28,7 +28,7 @@ def setup_environment(env):
 
 
 def setup_tools(env):
-    for tool in ['gcc','g++','ar']:
+    for tool in ['gcc','g++','ar', 'gnulink']:
         env.Tool(tool)
 
     env.Replace(CC      = "arm-none-eabi-gcc")

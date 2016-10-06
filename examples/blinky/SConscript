@@ -1,0 +1,8 @@
+Import('env core')
+
+sources = [
+    "main.c",
+    '../../core/mcu/gcc/gcc_startup_nrf52.S'
+]
+
+env.Hex(target = 'blinky', source = sources)

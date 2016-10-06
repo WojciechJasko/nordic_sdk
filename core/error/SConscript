@@ -7,8 +7,9 @@ sources = [
 ]
 
 objects = list()
-for s in sources:
-    objects.append(env.Object(s))
+if 'Object' in env['BUILDERS']:
+    for s in sources:
+        objects.append(env.Object(s))
 
 result = {
     'sources' : sources,

@@ -1,0 +1,3 @@
+Import('env core')
+
+env.SConscript('blinky/SConscript', exports='env core')

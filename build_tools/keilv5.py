@@ -37,7 +37,7 @@ def setup_tools(env):
     env.Replace(AS      = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armasm.Exe")
     env.Replace(AR      = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\ArmAr.Exe")
     env.Replace(LD      = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\ArmLink.Exe")
-    env.Replace(LINK      = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\ArmLink.Exe")
+    env.Replace(LINK    = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\ArmLink.Exe")
     env.Replace(NM      = "")
     env.Replace(OBJDUMP = "")
     env.Replace(OBJCOPY = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\FromElf.Exe")

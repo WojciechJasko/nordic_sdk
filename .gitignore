@@ -45,3 +45,5 @@
 *.d
 
 _build/
+cmock/
+lib/

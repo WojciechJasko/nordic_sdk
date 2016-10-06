@@ -4,16 +4,14 @@ sources = list()
 objects = list()
 
 if env['MCU'].startswith('NRF51'):
-    s = File('mcu/system_nrf51.c')
-    sources.append(s)
-    objects.append(env.Object(s))
+    sources.append(File('system_nrf51.c'))
 
 elif env['MCU'].startswith('NRF52'):
-    s = File('mcu/system_nrf52.c')
-    sources.append(s)
-    objects.append(env.Object(s))
+    sources.append(File('system_nrf52.c'))
 
-
+if 'Object' in env['BUILDERS']:
+    for s in sources:
+        objects.append(env.Object(s))
 
 result = {
     'sources' : sources,
