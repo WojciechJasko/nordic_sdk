@@ -29,7 +29,7 @@ def setup_environment(env):
 
 
 def setup_tools(env):
-    for tool in ['gcc','g++','ar',]:
+    for tool in ['gcc','g++','ar', 'gnulink', 'nasm']:
         env.Tool(tool)
 
     env.Replace(CC      = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armcc.Exe")
@@ -46,12 +46,15 @@ def setup_tools(env):
 
     env.Replace(CCFLAGS = "")
     env.Replace(LINKFLAGS = "")
+    env.Replace(ASFLAGS = "")
     env.Replace(ARFLAGS = "-r")
     env['PROGSUFFIX']   = '.axf'
 
     env['CCCOM']   = r'$CC $CFLAGS $CCFLAGS $CPPFLAGS $_CPPDEFFLAGS $_CPPINCFLAGS -c -o $TARGET $SOURCES'
     env['LINKCOM'] = r'$LINK --libpath '+env['ENV']['KEIL5']+'\ARM\ARMCC\LIB $LINKFLAGS -o $TARGET $SOURCES $LIBS'
+    env['ASCOM']   = r'$AS $ASFLAGS -o $TARGET $SOURCES'
 
+    env['ASSUFFIXES'] = ['.s', '.asm', '.ASM']
 
 
 def add_flags(env):
@@ -77,6 +80,10 @@ def add_flags(env):
                                 "--cpu=Cortex-M0"
                             ])
 
+        env.Append(ASFLAGS = [
+                            "--cpu=Cortex-M0"
+                        ])
+
     elif TARGETS[env['MCU']]['target'] == 'cortex_m4':
         env.Append(CCFLAGS = [
                                 "--cpu=Cortex-M4"
@@ -85,6 +92,10 @@ def add_flags(env):
         env.Append(LINKFLAGS = [
                                 "--cpu=Cortex-M4"
                             ])
+
+        env.Append(ASFLAGS = [
+                            "--cpu=Cortex-M4"
+                        ])
 
     else:
         raise Exception("Not supported target: {}".format(TARGETS[env['MCU']]['target']))
@@ -117,9 +128,13 @@ def add_flags(env):
     else:
         raise Exception("Not supported build type: {}".format(env['BUILD_TYPE']))
 
+    print env.Dump()
+
 def add_methods(env):
     def Hex(env, target, source):
         #TODO: add asm and depends elffile from asmobjfile: Depends(elffile, asmobjfile)
+        source.append(TARGETS[env['MCU']]['startup']['keilv5'])
+        print source
         env['HEXSUFFIX'] = '.hex'
         elffile = env.Program(
             target = target,

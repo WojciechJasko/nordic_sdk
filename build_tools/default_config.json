@@ -3,9 +3,9 @@
     "target": "cortex_m4",
     "fpu": "hard",
     "startup": {
-            "armgcc": "core/mcu/gcc/gcc_startup_nrf52.S",
-            "iar": "core/mcu/iar/iar_startup_nrf52.s",
-            "keilv5": "core/mcu/arm/arm_startup_nrf52.s"
+            "armgcc": "#core/mcu/gcc/gcc_startup_nrf52.S",
+            "iar": "#core/mcu/iar/iar_startup_nrf52.S",
+            "keilv5": "#core/mcu/arm/arm_startup_nrf52.S"
         }
   }
 }
