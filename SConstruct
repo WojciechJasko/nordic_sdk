@@ -1,5 +1,6 @@
 import os
 
+# Setup Command Line
 vars = Variables()
 vars.AddVariables(
     EnumVariable('MCU',
@@ -12,14 +13,13 @@ vars.AddVariables(
                  allowed_values=('release', 'debug')),
 )
 
-
+# Setup Environment
 env = Environment(
     ENV         = os.environ,
     variables   = vars,
     tools       = ['armgcc', 'cmock', 'unity', 'keil5project'],
     toolpath    = ['build_tools', 'test_tools', 'project_tools'],
 )
-
 
 env.Append(CPPDEFINES = [
                         env['MCU']
@@ -31,8 +31,9 @@ if env['BUILD_TYPE'] == "debug":
                 ])
 
 
+# Build Core
 core = env.SConscript('core/SConscript', exports='env', variant_dir='_build', duplicate=0)
 env.Install('cmock',    core['cmocks'])
 env.Install('libs',     core['library'])
 
-env.SConscript('examples/SConscript', exports='env core')
+# env.SConscript('examples/SConscript', exports='env')

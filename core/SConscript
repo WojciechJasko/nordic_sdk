@@ -22,9 +22,6 @@ if 'CMock' in env['BUILDERS']:
         cmocks.append(env.CMock(h))
 
 result = {
-    'sources'   : mcu['sources'] + error['sources'],
-    'objects'   : mcu['objects'] + error['objects'],
-    'includes'  : includes,
     'cmocks'    : cmocks,
     'library'   : library,
 }

@@ -12,7 +12,6 @@ if 'Object' in env['BUILDERS']:
         objects.append(env.Object(s))
 
 result = {
-    'sources' : sources,
     'objects' : objects,
 }
 Return('result')
