@@ -8,4 +8,3 @@ sources = [
 # env['LINKFLAGS'] = ['-Tblinky_gcc_nrf51.ld']
 
 # env.Hex(target = 'blinky', source = sources)
-env.Keil5Project(target = 'blinky', src = sources);

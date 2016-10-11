@@ -17,8 +17,8 @@ vars.AddVariables(
 env = Environment(
     ENV         = os.environ,
     variables   = vars,
-    tools       = ['armgcc', 'cmock', 'unity', 'keil5project'],
-    toolpath    = ['build_tools', 'test_tools', 'project_tools'],
+    tools       = ['armgcc', 'cmock', 'unity'],
+    toolpath    = ['build_tools', 'test_tools'],
 )
 
 env.Append(CPPDEFINES = [

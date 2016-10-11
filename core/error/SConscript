@@ -1,9 +1,9 @@
 Import('env')
 
 sources = [
-    File('nrf_assert.c'),
-    File('nrf_error.c'),
-    File('nrf_fault.c'),
+    'nrf_assert.c',
+    'nrf_error.c',
+    'nrf_fault.c',
 ]
 
 objects = list()

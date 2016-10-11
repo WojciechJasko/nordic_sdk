@@ -2,10 +2,10 @@ Import('env')
 
 sources = list()
 if env['MCU'].startswith('NRF51'):
-    sources.append(File('system_nrf51.c'))
+    sources.append('system_nrf51.c')
 
 elif env['MCU'].startswith('NRF52'):
-    sources.append(File('system_nrf52.c'))
+    sources.append('system_nrf52.c')
 
 objects = list()
 if 'Object' in env['BUILDERS']:
