@@ -1,8 +1,7 @@
 Import('env')
 
 sources = [
-    "main.c",
-    '../../core/mcu/arm/arm_startup_nrf52.s'
+    "main.c"
 ]
 
 if env['MCU'].startswith('NRF51'):
