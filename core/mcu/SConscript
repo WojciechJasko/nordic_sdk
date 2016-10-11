@@ -7,12 +7,8 @@ if env['MCU'].startswith('NRF51'):
 elif env['MCU'].startswith('NRF52'):
     sources.append('system_nrf52.c')
 
-objects = list()
-if 'Object' in env['BUILDERS']:
+if env['type'] == 'build':
+    objects = list()
     for s in sources:
         objects.append(env.Object(s))
-
-result = {
-    'objects' : objects
-}
-Return('result')
+    Return('objects')

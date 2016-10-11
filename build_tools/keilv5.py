@@ -18,6 +18,7 @@ def exists(env):
 
 
 def setup_environment(env):
+    env['ENV']['KEIL5'] = 'C:\Keil_v5'
     assert env['ENV'].has_key('KEIL5'), "You need to specify Keil compiler path (KEIL5=<path>)"
     assert env.has_key('MCU'), "You need to specify processor (MCU=<cpu>)"
     assert env.has_key('BUILD_TYPE'), "You need to specify build type (BUILD_TYPE=<build_type>)"
@@ -128,7 +129,6 @@ def add_flags(env):
     else:
         raise Exception("Not supported build type: {}".format(env['BUILD_TYPE']))
 
-    print env.Dump()
 
 def add_methods(env):
     def Hex(env, target, source):

@@ -6,12 +6,11 @@ sources = [
     'nrf_fault.c',
 ]
 
-objects = list()
-if 'Object' in env['BUILDERS']:
+if env['type'] == 'build':
+    objects = list()
     for s in sources:
         objects.append(env.Object(s))
+    Return('objects')
 
-result = {
-    'objects' : objects,
-}
-Return('result')
+elif env['type'] == 'unittest':
+    SConscript('test/SConscript',    exports=['env'])

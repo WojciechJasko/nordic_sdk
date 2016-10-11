@@ -1,0 +1,4 @@
+Import('env')
+
+if 'Unity' in env['BUILDERS']:
+    env.Unity('test_nrf_error.c')

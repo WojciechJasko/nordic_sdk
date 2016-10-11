@@ -13,28 +13,54 @@ vars.AddVariables(
                  allowed_values=('release', 'debug')),
 )
 
-# Setup Environment
-env = Environment(
+# Create Environments
+armgcc_env = Environment(
     ENV         = os.environ,
+    name        = 'armgcc',
+    type        = 'build',
     variables   = vars,
-    tools       = ['armgcc', 'cmock', 'unity'],
-    toolpath    = ['build_tools', 'test_tools', 'project_tools'],
+    tools       = ['armgcc'],
+    toolpath    = ['build_tools'],
 )
 
-env.Append(CPPDEFINES = [
-                        env['MCU']
+keilv5_env = Environment(
+    ENV         = os.environ,
+    name        = 'keilv5',
+    type        = 'build',
+    variables   = vars,
+    tools       = ['keilv5'],
+    toolpath    = ['build_tools'],
+)
+
+unittest_env = Environment(
+    ENV         = os.environ,
+    name        = 'unittest',
+    type        = 'unittest',
+    variables   = vars,
+    tools       = ['gcc', 'cmock', 'unity'],
+    toolpath    = ['test_tools'],
+)
+
+envs        = [armgcc_env, keilv5_env, unittest_env]
+
+# Setup Environments
+for env in envs:
+    env.Append(CPPDEFINES = [
+                            env['MCU']
+                        ])
+
+    if env['BUILD_TYPE'] == "debug":
+        env.Append(CPPDEFINES = [
+                       "NRF_DEBUG",
                     ])
 
-if env['BUILD_TYPE'] == "debug":
-    env.Append(CPPDEFINES = [
-                   "NRF_DEBUG",
-                ])
-
-
 # Build Core
-core = env.SConscript('core/SConscript', exports='env', variant_dir='_build', duplicate=0)
-env.Install('cmock',    core['cmocks'])
-env.Install('libs',     core['library'])
-env.Append( LIBS = core['library'])
+for env in envs:
+    core = SConscript('core/SConscript', exports='env', variant_dir='_build/' + env['name'], duplicate=0)
 
-env.SConscript('examples/SConscript', exports='env core')
+    if env['type'] == 'build':
+        env.Install('libs/' + env['name'],  core)
+
+    elif env['type'] == 'unittest':
+        env.Install('cmock', core)
+

@@ -6,24 +6,19 @@ includes = [
     '#core/include/mcu'
 ]
 env.Append(CPPPATH=includes)
+mcu     = SConscript('mcu/SConscript',      exports=['env'])
+error   = SConscript('error/SConscript',    exports=['env'])
 
-mcu     = env.SConscript('mcu/SConscript',      exports=['env'])
-error   = env.SConscript('error/SConscript',    exports=['env'])
-
-library = None
-if 'Library' in env['BUILDERS']:
+if env['type'] == 'build':
     library = env.Library(
         target = 'core',
-        source = mcu['objects'] + error['objects']
+        source = mcu + error
     )
+    Return('library')
 
-cmocks = list()
-if 'CMock' in env['BUILDERS']:
+elif env['type'] == 'unittest':
+    cmocks = list()
     for h in ['include/nrf_error.h', 'include/nrf_assert.h', 'include/nrf_fault.h']:
         cmocks.append(env.CMock(h))
+    Return('cmocks')
 
-result = {
-    'cmocks'    : cmocks,
-    'library'   : library,
-}
-Return('result')
