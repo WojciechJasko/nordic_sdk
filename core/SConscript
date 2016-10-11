@@ -2,7 +2,8 @@ Import('env')
 
 includes = [
     '#core/include',
-    '#core/include/cmsis'
+    '#core/include/cmsis',
+    '#core/include/mcu'
 ]
 env.Append(CPPPATH=includes)
 

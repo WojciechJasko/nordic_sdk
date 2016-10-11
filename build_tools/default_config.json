@@ -1,11 +1,20 @@
 {
-  "NRF52832": {
-    "target": "cortex_m4",
-    "fpu": "hard",
-    "startup": {
-            "armgcc": "#core/mcu/gcc/gcc_startup_nrf52.S",
-            "iar": "#core/mcu/iar/iar_startup_nrf52.S",
-            "keilv5": "#core/mcu/arm/arm_startup_nrf52.S"
-        }
-  }
+    "NRF52832": {
+      "target": "cortex_m4",
+      "fpu": "hard",
+      "startup": {
+              "armgcc": "#core/mcu/gcc/gcc_startup_nrf52.S",
+              "iar": "#core/mcu/iar/iar_startup_nrf52.S",
+              "keilv5": "#core/mcu/arm/arm_startup_nrf52.S"
+          }
+    },
+    "NRF51422": {
+      "target": "cortex_m0",
+      "fpu": "soft",
+      "startup": {
+              "armgcc": "#core/mcu/gcc/gcc_startup_nrf51.S",
+              "iar": "#core/mcu/iar/iar_startup_nrf51.S",
+              "keilv5": "#core/mcu/arm/arm_startup_nrf51.S"
+          }
+    }
 }

@@ -5,8 +5,8 @@ vars = Variables()
 vars.AddVariables(
     EnumVariable('MCU',
                  'Set MCU',
-                 'NRF52832',
-                 allowed_values=('NRF52832', 'NRF51822')),
+                 'NRF51422',
+                 allowed_values=('NRF52832', 'NRF51822', 'NRF51422')),
     EnumVariable('BUILD_TYPE',
                  'Set build type',
                  'release',
@@ -18,7 +18,7 @@ env = Environment(
     ENV         = os.environ,
     variables   = vars,
     tools       = ['armgcc', 'cmock', 'unity'],
-    toolpath    = ['build_tools', 'test_tools'],
+    toolpath    = ['build_tools', 'test_tools', 'project_tools'],
 )
 
 env.Append(CPPDEFINES = [
@@ -35,5 +35,6 @@ if env['BUILD_TYPE'] == "debug":
 core = env.SConscript('core/SConscript', exports='env', variant_dir='_build', duplicate=0)
 env.Install('cmock',    core['cmocks'])
 env.Install('libs',     core['library'])
+env.Append( LIBS = core['library'])
 
-# env.SConscript('examples/SConscript', exports='env')
+env.SConscript('examples/SConscript', exports='env core')

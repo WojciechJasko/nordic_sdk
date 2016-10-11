@@ -5,6 +5,8 @@ sources = [
     '../../core/mcu/arm/arm_startup_nrf52.s'
 ]
 
-# env['LINKFLAGS'] = ['-Tblinky_gcc_nrf51.ld']
+if env['MCU'].startswith('NRF51'):
+    if 'armgcc' in env['TOOLS']:
+        env['LINKFLAGS'] += ['-T'+str(File('#blinky_gcc_nrf51.ld'))]
 
-# env.Hex(target = 'blinky', source = sources)
+env.Hex(target = 'blinky', source = sources)

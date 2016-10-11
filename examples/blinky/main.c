@@ -32,7 +32,7 @@ int main(void)
 {
     uint32_t i;
     /* Configure LED-pins as outputs. */
-    NRF_P0->PIN_CNF[21] = (GPIO_PIN_CNF_DIR_Output       << GPIO_PIN_CNF_DIR_Pos)
+    NRF_GPIO->PIN_CNF[21] = (GPIO_PIN_CNF_DIR_Output       << GPIO_PIN_CNF_DIR_Pos)
                           | (GPIO_PIN_CNF_INPUT_Disconnect << GPIO_PIN_CNF_INPUT_Pos)
                           | (GPIO_PIN_CNF_PULL_Disabled    << GPIO_PIN_CNF_PULL_Pos)
                           | (GPIO_PIN_CNF_DRIVE_S0S1       << GPIO_PIN_CNF_DRIVE_Pos)
@@ -41,9 +41,9 @@ int main(void)
     /* Toggle LEDs. */
     while (true)
     {
-        uint32_t gpio_state = NRF_P0->OUT;      \
-        NRF_P0->OUTSET = ((1<<21) & ~gpio_state); \
-        NRF_P0->OUTCLR = ((1<<21) & gpio_state);
+        uint32_t gpio_state = NRF_GPIO->OUT;      \
+        NRF_GPIO->OUTSET = ((1<<21) & ~gpio_state); \
+        NRF_GPIO->OUTCLR = ((1<<21) & gpio_state);
         i=1000000;
         while(i-- != 0);
     }

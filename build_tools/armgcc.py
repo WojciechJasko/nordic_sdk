@@ -128,14 +128,13 @@ def add_flags(env):
 def add_methods(env):
     def Hex(env, target, source):
         env['HEXSUFFIX'] = '.hex'
-        source.Append(TARGETS[env['MCU']]['startup']['armgcc'])
+        source.append(TARGETS[env['MCU']]['startup']['armgcc'])
         elffile = env.Program(
             target=target,
             source = source
         )
         hexfile = env.Command(target, source, "$OBJCOPY -O ihex $TARGET$PROGSUFFIX $TARGET$HEXSUFFIX")
         env.Depends( hexfile, elffile )
-        #print env.Dump()
         return elffile
     env.AddMethod(Hex, "Hex")
 
