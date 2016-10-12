@@ -1,15 +1,24 @@
 Import('env')
 
+import os, sys
+work_dir = Dir('#.').path+'/'+os.path.dirname(File('SConscript').srcnode().path)
+
+my_dirs = [d for d in os.listdir(work_dir) if os.path.isdir(os.path.join(work_dir, d))]
+
 includes = [
     '#boards'
 ]
 env.Append(CPPPATH=includes)
-pca10031 = SConscript('pca10031/SConscript',      exports=['env'])
 
-if env['type'] == 'build':
-    library = env.Library(
-        target = 'pca10031',
-        source = pca10031
-    )
-    Return('library')
+library = []
+for board in my_dirs:
+    lib = SConscript(board+'/SConscript',      exports=['env'])
+    if env['type'] == 'build':
+        library.append(env.Library(
+            target = board,
+            source = lib
+        ))
+
+Return('library')
+
 

@@ -62,7 +62,8 @@ for env in envs:
 
     if env['type'] == 'build':
         env['nrf_libs'].append(env.Install('libs/' + env['name'],  core))
-        env['nrf_libs'].append(env.Install('libs/' + env['name'],  boards))
+        for board in boards:
+            env['nrf_libs'].append(env.Install('libs/' + env['name'],  board))
         examples = env.SConscript('examples/SConscript', variant_dir='_hex/' + env['name'], duplicate=0, exports='env')
 
     elif env['type'] == 'unittest':

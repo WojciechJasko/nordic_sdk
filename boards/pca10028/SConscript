@@ -1,0 +1,17 @@
+Import('env')
+
+sources = [
+    'board.c'
+]
+
+includes = [
+    '.'
+]
+
+env.Append(CPPPATH=includes)
+
+if env['type'] == 'build':
+    objects = list()
+    for s in sources:
+        objects.append(env.Object(s))
+    Return('objects')
