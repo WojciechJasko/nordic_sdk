@@ -30,8 +30,8 @@ def setup_tools(env):
 def add_methods(env):
     def UnitTest(env, target, source):
         app = source[0].abspath
-        print(str(target))
-        return subprocess.call(app)
+        with open(target[0].abspath, 'w+') as f:
+            subprocess.call(app, stdout=f)
 
     def addUnitTest(env, target, source, *args, **kwargs):
         source_list = list()
