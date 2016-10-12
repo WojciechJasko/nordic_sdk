@@ -1,4 +1,4 @@
 Import('env')
 
-if 'Unity' in env['BUILDERS']:
+if env['type'] == 'unittest':
     env.addUnitTest('test_nrf_error.c', source = '#cmock/cmock_nrf_fault.c')

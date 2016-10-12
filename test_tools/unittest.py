@@ -30,6 +30,7 @@ def setup_tools(env):
 def add_methods(env):
     def UnitTest(env, target, source):
         app = source[0].abspath
+        print(str(target))
         return subprocess.call(app)
 
     def addUnitTest(env, target, source, *args, **kwargs):
@@ -58,6 +59,7 @@ def add_methods(env):
     env.Append(BUILDERS={
                         'UnitTest': Builder(
                             action   = UnitTest,
+                            suffix = '.result',
                             ),
                     })
-    env.AddMethod(addUnitTest,  "addUnitTest")
+    env.AddMethod(addUnitTest, "addUnitTest")
