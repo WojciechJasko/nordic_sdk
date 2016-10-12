@@ -1,3 +1,3 @@
-Import('env libs')
+Import('env')
 
-env.SConscript('blinky/SConscript', exports='env libs')
+env.SConscript('blinky/SConscript', exports='env')

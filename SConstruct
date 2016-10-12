@@ -41,7 +41,7 @@ unittest_env = Environment(
     toolpath    = ['test_tools'],
 )
 
-envs = [keilv5_env, unittest_env]
+envs = [armgcc_env, keilv5_env, unittest_env]
 
 # Setup Environments
 for env in envs:
@@ -54,16 +54,16 @@ for env in envs:
                        "NRF_DEBUG",
                     ])
 
-libs = []
-
 # Build Core
 for env in envs:
+    env['nrf_libs'] = []
     core = SConscript('core/SConscript', exports='env', variant_dir='_build/' + env['name'], duplicate=0)
+    boards = SConscript('boards/SConscript', exports='env', variant_dir='_boards/' + env['name'], duplicate=0)
 
     if env['type'] == 'build':
-        libs += env.Install('libs/' + env['name'],  core)
-        examples = env.SConscript('examples/SConscript', exports='env libs')
+        env['nrf_libs'].append(env.Install('libs/' + env['name'],  core))
+        env['nrf_libs'].append(env.Install('libs/' + env['name'],  boards))
+        examples = env.SConscript('examples/SConscript', variant_dir='_hex/' + env['name'], duplicate=0, exports='env')
 
     elif env['type'] == 'unittest':
         env.Install('cmock', core)
-

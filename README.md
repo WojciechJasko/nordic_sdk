@@ -1,6 +1,11 @@
-# Nordic SDK
+# Nordic open source SDK
+
+Tested with compilers:
+ - gcc-arm-none-eabi 5.4 q3 (Windows, Linux)
+ - MDK-ARM Lite 5.21 (ARM Compiler 5.06 update 3 (build 300) (Windows)
+
 ### Directory Structure
-``` 
+```
 Nordic_SDK/
 +-- SConstruct
 +-- build_tools

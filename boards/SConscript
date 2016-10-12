@@ -1,0 +1,15 @@
+Import('env')
+
+includes = [
+    '#boards'
+]
+env.Append(CPPPATH=includes)
+pca10031 = SConscript('pca10031/SConscript',      exports=['env'])
+
+if env['type'] == 'build':
+    library = env.Library(
+        target = 'pca10031',
+        source = pca10031
+    )
+    Return('library')
+
