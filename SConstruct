@@ -37,11 +37,11 @@ unittest_env = Environment(
     name        = 'unittest',
     type        = 'unittest',
     variables   = vars,
-    tools       = ['gcc', 'cmock', 'unity'],
+    tools       = ['unittest'],
     toolpath    = ['test_tools'],
 )
 
-envs        = [armgcc_env, keilv5_env, unittest_env]
+envs = [armgcc_env, keilv5_env, unittest_env]
 
 # Setup Environments
 for env in envs:
@@ -63,4 +63,3 @@ for env in envs:
 
     elif env['type'] == 'unittest':
         env.Install('cmock', core)
-
