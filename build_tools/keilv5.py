@@ -18,7 +18,6 @@ def exists(env):
 
 
 def setup_environment(env):
-    env['ENV']['KEIL5'] = 'C:\Keil_v5'
     assert env['ENV'].has_key('KEIL5'), "You need to specify Keil compiler path (KEIL5=<path>)"
     assert env.has_key('MCU'), "You need to specify processor (MCU=<cpu>)"
     assert env.has_key('BUILD_TYPE'), "You need to specify build type (BUILD_TYPE=<build_type>)"
@@ -64,10 +63,6 @@ def add_flags(env):
                             "-O2",
                             "-g",
                             "--c99"
-                        ])
-
-    env.Append(LINKFLAGS = [
-                            "--scatter=nrf52832_xxaa.sct"  #test purposes
                         ])
 
     global TARGETS
@@ -129,16 +124,15 @@ def add_flags(env):
     else:
         raise Exception("Not supported build type: {}".format(env['BUILD_TYPE']))
 
-
 def add_methods(env):
-    def Hex(env, target, source):
+    def Hex(env, target, source, lib):
         #TODO: add asm and depends elffile from asmobjfile: Depends(elffile, asmobjfile)
         source.append(TARGETS[env['MCU']]['startup']['keilv5'])
-        print source
         env['HEXSUFFIX'] = '.hex'
         elffile = env.Program(
             target = target,
-            source = source
+            source = source,
+            LIBS=lib
         )
         hexfile = env.Command(target, source, "$OBJCOPY --i32 $TARGET$PROGSUFFIX -o $TARGET$HEXSUFFIX")
         env.Depends( hexfile, elffile )

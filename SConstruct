@@ -23,25 +23,25 @@ armgcc_env = Environment(
     toolpath    = ['build_tools'],
 )
 
-keilv5_env = Environment(
-    ENV         = os.environ,
-    name        = 'keilv5',
-    type        = 'build',
-    variables   = vars,
-    tools       = ['keilv5'],
-    toolpath    = ['build_tools'],
-)
+#keilv5_env = Environment(
+#    ENV         = os.environ,
+#    name        = 'keilv5',
+#    type        = 'build',
+#    variables   = vars,
+#    tools       = ['keilv5'],
+#    toolpath    = ['build_tools'],
+#)
 
 unittest_env = Environment(
     ENV         = os.environ,
     name        = 'unittest',
     type        = 'unittest',
     variables   = vars,
-    tools       = ['unittest'],
+    tools       = ['gcc', 'cmock', 'unity'],
     toolpath    = ['test_tools'],
 )
 
-envs = [armgcc_env, keilv5_env, unittest_env]
+envs        = [armgcc_env]
 
 # Setup Environments
 for env in envs:
@@ -54,12 +54,16 @@ for env in envs:
                        "NRF_DEBUG",
                     ])
 
+libs = []
+
 # Build Core
 for env in envs:
     core = SConscript('core/SConscript', exports='env', variant_dir='_build/' + env['name'], duplicate=0)
 
     if env['type'] == 'build':
-        env.Install('libs/' + env['name'],  core)
+        libs += env.Install('libs/' + env['name'],  core)
+        examples = env.SConscript('examples/SConscript', exports='env libs')
 
     elif env['type'] == 'unittest':
         env.Install('cmock', core)
+

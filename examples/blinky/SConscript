@@ -1,13 +1,20 @@
-Import('env')
+Import('env libs')
 
 sources = [
-    "main.c"
+    "main.c",
+    "#boards/pca10031/board.c"
 ]
 
-print
+includes = [
+    '#boards',
+    '#boards/pca10031',
+]
+env.Append(CPPPATH=includes)
 
 if env['MCU'].startswith('NRF51'):
     if 'armgcc' in env['TOOLS']:
         env['LINKFLAGS'] += ['-T'+Dir('.').abspath+'/blinky_gcc_nrf51.ld']
+    if 'keilv5' in env['TOOLS']:
+        env['LINKFLAGS'] += ['--scatter='+Dir('.').abspath+'/nrf51422_xxaa.sct']
 
-env.Hex(target = 'blinky', source = sources)
+env.Hex(target = 'blinky', source = sources, lib=libs)
