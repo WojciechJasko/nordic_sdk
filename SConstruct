@@ -23,14 +23,14 @@ armgcc_env = Environment(
     toolpath    = ['build_tools'],
 )
 
-#keilv5_env = Environment(
-#    ENV         = os.environ,
-#    name        = 'keilv5',
-#    type        = 'build',
-#    variables   = vars,
-#    tools       = ['keilv5'],
-#    toolpath    = ['build_tools'],
-#)
+keilv5_env = Environment(
+    ENV         = os.environ,
+    name        = 'keilv5',
+    type        = 'build',
+    variables   = vars,
+    tools       = ['keilv5'],
+    toolpath    = ['build_tools'],
+)
 
 unittest_env = Environment(
     ENV         = os.environ,
@@ -41,7 +41,7 @@ unittest_env = Environment(
     toolpath    = ['test_tools'],
 )
 
-envs        = [armgcc_env]
+envs        = [armgcc_env, keilv5_env, unittest_env]
 
 # Setup Environments
 for env in envs:
