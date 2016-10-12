@@ -11,6 +11,7 @@ extern "C" {
 void nrf_board_init(void);
 void nrf_board_led_on(uint32_t led_number);
 void nrf_board_led_off(uint32_t led_number);
+void nrf_board_led_invert(uint32_t led_number);
 
 
 #ifdef __cplusplus

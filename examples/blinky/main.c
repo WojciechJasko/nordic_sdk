@@ -24,6 +24,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "nrf_core.h"
+#include "board.h"
 
 /**
  * @brief Function for application main entry.
@@ -32,18 +33,12 @@ int main(void)
 {
     uint32_t i;
     /* Configure LED-pins as outputs. */
-    NRF_GPIO->PIN_CNF[19] = (GPIO_PIN_CNF_DIR_Output       << GPIO_PIN_CNF_DIR_Pos)
-                          | (GPIO_PIN_CNF_INPUT_Disconnect << GPIO_PIN_CNF_INPUT_Pos)
-                          | (GPIO_PIN_CNF_PULL_Disabled    << GPIO_PIN_CNF_PULL_Pos)
-                          | (GPIO_PIN_CNF_DRIVE_S0S1       << GPIO_PIN_CNF_DRIVE_Pos)
-                          | (GPIO_PIN_CNF_SENSE_Disabled   << GPIO_PIN_CNF_SENSE_Pos);
+    nrf_board_init();
 
     /* Toggle LEDs. */
     while (true)
     {
-        uint32_t gpio_state = NRF_GPIO->OUT;      \
-        NRF_GPIO->OUTSET = ((1<<19) & ~gpio_state); \
-        NRF_GPIO->OUTCLR = ((1<<19) & gpio_state);
+        nrf_board_led_invert(0);
         i=1000000;
         while(i-- != 0);
     }
