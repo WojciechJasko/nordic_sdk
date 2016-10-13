@@ -5,20 +5,17 @@ includes = [
     '#core/include/cmsis',
     '#core/include/mcu'
 ]
+
+if env['type'] == 'unittest':
+    for h in ['include/nrf_error.h', 'include/nrf_assert.h', 'include/nrf_fault.h']:
+        env.addCMock(h)
+
 env.Append(CPPPATH=includes)
 mcu     = SConscript('mcu/SConscript',      exports=['env'])
 error   = SConscript('error/SConscript',    exports=['env'])
 
 if env['type'] == 'build':
-    library = env.Library(
+    env.addLibrary(
         target = 'core',
         source = mcu + error
     )
-    Return('library')
-
-elif env['type'] == 'unittest':
-    cmocks = list()
-    for h in ['include/nrf_error.h', 'include/nrf_assert.h', 'include/nrf_fault.h']:
-        cmocks.append(env.CMock(h))
-    Return('cmocks')
-

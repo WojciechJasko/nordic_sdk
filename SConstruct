@@ -56,15 +56,9 @@ for env in envs:
 
 # Build Core
 for env in envs:
-    env['nrf_libs'] = []
-    core = SConscript('core/SConscript', exports='env', variant_dir='_build/' + env['name'], duplicate=0)
-    boards = SConscript('boards/SConscript', exports='env', variant_dir='_boards/' + env['name'], duplicate=0)
+    SConscript('core/SConscript', exports='env', variant_dir='_build/core/' + env['name'], duplicate=0)
 
-    if env['type'] == 'build':
-        env['nrf_libs'].append(env.Install('libs/' + env['name'],  core))
-        for board in boards:
-            env['nrf_libs'].append(env.Install('libs/' + env['name'],  board))
-        examples = env.SConscript('examples/SConscript', variant_dir='_hex/' + env['name'], duplicate=0, exports='env')
+    # SConscript('boards/SConscript', exports='env', variant_dir='_build/boards/' + env['name'], duplicate=0)
 
-    elif env['type'] == 'unittest':
-        env.Install('cmock', core)
+    # SConscript('examples/SConscript', exports='env', variant_dir='_build/examples/' + env['name'], duplicate=0)
+

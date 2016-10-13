@@ -10,15 +10,11 @@ includes = [
 ]
 env.Append(CPPPATH=includes)
 
-library = []
 for board in my_dirs:
     lib = SConscript(board+'/SConscript',      exports=['env'])
     if env['type'] == 'build':
-        library.append(env.Library(
+        env['lib']['boards'] = list()
+        env['lib']['boards'].append(env.Library(
             target = board,
             source = lib
-        ))
-
-Return('library')
-
-
+        )) 

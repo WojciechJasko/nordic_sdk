@@ -33,6 +33,8 @@ def setup_tools(env):
     for tool in ['gcc','g++','ar', 'gnulink', 'nasm']:
         env.Tool(tool)
 
+    env['lib'] = list()
+
     env.Replace(CC      = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armcc.Exe")
     env.Replace(CXX     = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armcc.Exe")
     env.Replace(AS      = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armasm.Exe")
@@ -138,5 +140,16 @@ def add_methods(env):
         hexfile = env.Command(target, source, "$OBJCOPY --i32 $TARGET$PROGSUFFIX -o $TARGET$HEXSUFFIX")
         env.Depends( hexfile, elffile )
         return elffile
-    env.AddMethod(Hex, "Hex")
+
+    def addLibrary(env, target, source):
+        build_library = env.Library(
+            target = target,
+            source = source
+        )
+        library = env.Install('libs/' + env['name'], build_library)
+        env['lib'].append(library)
+        return library
+
+    env.AddMethod(Hex,          "Hex")
+    env.AddMethod(addLibrary,   "addLibrary")
 

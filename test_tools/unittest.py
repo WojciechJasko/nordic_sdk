@@ -17,6 +17,8 @@ def setup_tools(env):
     for tool in ['gcc', 'gnulink', 'unity', 'cmock']:
         env.Tool(tool)
 
+    env['unittest'] = list()
+
     directory   = os.path.dirname(__file__)
     unity_path  = os.path.join(directory, 'unity', 'src')
     cmock_path  = os.path.join(directory, 'cmock', 'src')
@@ -32,6 +34,7 @@ def add_methods(env):
         app = source[0].abspath
         with open(target[0].abspath, 'w+') as f:
             subprocess.call(app, stdout=f)
+        env['unittest'].append(target)
 
     def addUnitTest(env, target, source, *args, **kwargs):
         source_list = list()
@@ -55,7 +58,7 @@ def add_methods(env):
         env.Alias(str(program[0]), utest)
         return utest
 
-    env.AddMethod(UnitTest,     "UnitTest")
+    env.AddMethod(UnitTest, "UnitTest")
     env.Append(BUILDERS={
                         'UnitTest': Builder(
                             action   = UnitTest,

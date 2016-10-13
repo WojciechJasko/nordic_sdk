@@ -16,11 +16,11 @@ if env['MCU'].startswith('NRF51'):
         env['LINKFLAGS'] += ['-T'+os.path.realpath(Dir('#/examples/blinky').abspath+'/blinky_gcc_nrf51.ld')]
     if 'keilv5' in env['TOOLS']:
         env['LINKFLAGS'] += ['--scatter='+os.path.realpath(Dir('#/examples/blinky').abspath+'/nrf51422_xxaa.sct')]
+if env['type'] == 'build':
+    objects = list()
+    for s in sources:
+        objects.append(env.Object(s))
 
-objects = list()
-for s in sources:
-    objects.append(env.Object(s))
+    hexfile = env.Hex(target = 'blinky', source = objects, lib=env['libs'])
 
-hexfile = env.Hex(target = 'blinky', source = objects, lib=env['nrf_libs'])
-
-Return('hexfile')
+    Return('hexfile')
