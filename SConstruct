@@ -41,7 +41,7 @@ unittest_env = Environment(
     toolpath    = ['test_tools'],
 )
 
-envs = [keilv5_env, unittest_env]
+envs = [armgcc_env, keilv5_env, unittest_env]
 
 # Setup Environments
 for env in envs:
