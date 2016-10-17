@@ -1,8 +1,20 @@
- - I want to build library for the given MCU, TOOLCHAIN and BUILD_TYPE
+DONE:
  - I want to generate cmock
  - I want to generate unity
  - I want to build unittest application from unity and sources
+IN PROGRESS:
+ - I want to build library for the given MCU, TOOLCHAIN and BUILD_TYPE (build_type missing)
+TODO:
  - I want to create project from given libraries
  - I want to create project from given files
  - I want to create hex from given library and sources
- - 
+ - I want to configure lib/cmock/test result install path
+ - I want to have config file per module
+
+
+PRESTUDY:
+ - section vars and libs
+ - sections no init
+ - linker generator
+ - weak symbols and libs (http://www.keil.com/support/man/docs/ARMLINK/armlink_pge1362065917715.htm)
+ - SCons stand alone

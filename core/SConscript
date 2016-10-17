@@ -12,7 +12,7 @@ if env['type'] == 'unittest':
 
 sources = list()
 for module in ['mcu', 'error']:
-    sources.append(SConscript(module + '/SConscript',      exports=['env']))
+    sources.append(SConscript(module + '/SConscript', exports=['env']))
 
 if env['type'] == 'build':
     env.addLibrary(
