@@ -41,12 +41,16 @@ def add_builders(env):
                         })
 
 def add_methods(env):
-    def addCMock(env, header):
-        build_cmock = env.CMock(header)
-        cmock       = env.Install('cmock/', build_cmock)
-        file_name   = os.path.splitext(str(build_cmock[0]))[0]
+    def addCMock(env, headers):
+        cmocks = list()
+        for header in headers:
+            build_cmock = env.CMock(header)
+            cmock       = env.Install('#cmock/', build_cmock)
+            file_name   = os.path.splitext(str(build_cmock[0]))[0]
 
-        env['cmock'][file_name] = cmock[0]
-        return cmock
+            env['cmock'][file_name] = cmock[0]
+            cmocks.append(cmock)
+
+        return cmocks
 
     env.AddMethod(addCMock,   "addCMock")

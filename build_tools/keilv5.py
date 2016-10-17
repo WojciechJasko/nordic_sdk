@@ -44,7 +44,7 @@ def setup_tools(env):
     env.Replace(NM      = "")
     env.Replace(OBJDUMP = "")
     env.Replace(OBJCOPY = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\FromElf.Exe")
-    env.Replace(RANLIB  = "")
+    env.Replace(RANLIB  = "ECHO") #TODO workaround
     env.Replace(SIZE    = "")
 
     env.Replace(CCFLAGS = "")
@@ -146,7 +146,7 @@ def add_methods(env):
             target = target,
             source = source
         )
-        library = env.Install('libs/' + env['name'], build_library)
+        library = env.Install('#libs/' + env['name'], build_library)
         env['lib'].append(library)
         return library
 

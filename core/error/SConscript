@@ -1,16 +1,12 @@
 Import('env')
 
+if env['type'] == 'unittest':
+    SConscript('test/SConscript',    exports=['env'])
+
 sources = [
-    'nrf_assert.c',
-    'nrf_error.c',
-    'nrf_fault.c',
+    File('nrf_assert.c'),
+    File('nrf_error.c'),
+    File('nrf_fault.c'),
 ]
 
-if env['type'] == 'build':
-    objects = list()
-    for s in sources:
-        objects.append(env.Object(s))
-    Return('objects')
-
-elif env['type'] == 'unittest':
-    SConscript('test/SConscript',    exports=['env'])
+Return('sources')

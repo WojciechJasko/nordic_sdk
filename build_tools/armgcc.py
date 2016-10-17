@@ -145,7 +145,7 @@ def add_methods(env):
             target = target,
             source = source
         )
-        library = env.Install('libs/' + env['name'], build_library)
+        library = env.Install('#libs/' + env['name'], build_library)
         env['lib'].append(library)
         return library
 
