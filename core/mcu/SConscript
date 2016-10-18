@@ -4,7 +4,25 @@ sources = list()
 if env['MCU'].startswith('NRF51'):
     sources.append(File('system_nrf51.c'))
 
+    if env['name'] == 'armgcc':
+        env['startup'] = File('gcc/gcc_startup_nrf51.c')
+
+    elif env['name'] == 'keilv5':
+        env['startup'] = File('arm/arm_startup_nrf51.S')
+
+    elif env['name'] == 'iar':
+        env['startup'] = File('iar/iar_startup_nrf51.S')
+
 elif env['MCU'].startswith('NRF52'):
     sources.append(File('system_nrf52.c'))
+
+    if env['name'] == 'armgcc':
+        env['startup'] = File('gcc/gcc_startup_nrf52.c')
+
+    elif env['name'] == 'keilv5':
+        env['startup'] = File('arm/arm_startup_nrf52.S')
+
+    elif env['name'] == 'iar':
+        env['startup'] = File('iar/iar_startup_nrf52.S')
 
 Return('sources')

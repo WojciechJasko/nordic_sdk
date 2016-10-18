@@ -28,8 +28,8 @@ keilv5_env = Environment(
     name        = 'keilv5',
     type        = 'build',
     variables   = vars,
-    tools       = ['keilv5'],
-    toolpath    = ['build_tools'],
+    tools       = ['keilv5', 'keilv5_project'],
+    toolpath    = ['build_tools', 'project_tools'],
 )
 
 unittest_env = Environment(
@@ -41,7 +41,7 @@ unittest_env = Environment(
     toolpath    = ['test_tools'],
 )
 
-envs = [armgcc_env, keilv5_env, unittest_env]
+envs = [keilv5_env]
 
 # Setup Environments
 for env in envs:
@@ -60,5 +60,5 @@ for env in envs:
 
     # SConscript('boards/SConscript', exports='env', variant_dir='_build/boards/' + env['name'], duplicate=0)
 
-    # SConscript('examples/SConscript', exports='env', variant_dir='_build/examples/' + env['name'], duplicate=0)
+    SConscript('examples/SConscript', exports='env')
 

@@ -5,22 +5,26 @@ sources = [
     "main.c"
 ]
 
-includes = [
-    '#boards',
-    '#boards/pca10031',
-]
-env.Append(CPPPATH=includes)
+# includes = [
+#     '#boards',
+#     '#boards/pca10031',
+# ]
+# env.Append(CPPPATH=includes)
 
-if env['MCU'].startswith('NRF51'):
-    if 'armgcc' in env['TOOLS']:
-        env['LINKFLAGS'] += ['-T'+os.path.realpath(Dir('#/examples/blinky').abspath+'/blinky_gcc_nrf51.ld')]
-    if 'keilv5' in env['TOOLS']:
-        env['LINKFLAGS'] += ['--scatter='+os.path.realpath(Dir('#/examples/blinky').abspath+'/nrf51422_xxaa.sct')]
-if env['type'] == 'build':
-    objects = list()
-    for s in sources:
-        objects.append(env.Object(s))
+# if env['MCU'].startswith('NRF51'):
+#     if 'armgcc' in env['TOOLS']:
+#         env['LINKFLAGS'] += ['-T'+os.path.realpath(Dir('#/examples/blinky').abspath+'/blinky_gcc_nrf51.ld')]
+#     if 'keilv5' in env['TOOLS']:
+#         env['LINKFLAGS'] += ['--scatter='+os.path.realpath(Dir('#/examples/blinky').abspath+'/nrf51422_xxaa.sct')]
 
-    hexfile = env.Hex(target = 'blinky', source = objects, lib=env['libs'])
 
-    Return('hexfile')
+# if env['type'] == 'build':
+#     objects = list()
+#     for s in sources:
+#         objects.append(env.Object(s))
+
+#     hexfile = env.Hex(target = 'blinky', source = objects, lib=env['libs'])
+
+#     Return('hexfile')
+
+env.Keilv5Project(target = 'blinky', source = sources)

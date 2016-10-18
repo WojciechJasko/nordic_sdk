@@ -130,7 +130,7 @@ def add_flags(env):
 def add_methods(env):
     def Hex(env, target, source, lib):
         env['HEXSUFFIX'] = '.hex'
-        source.append(TARGETS[env['MCU']]['startup']['armgcc'])
+        source.append(env['startup'])
         elffile = env.Program(
             target=target,
             source = source,

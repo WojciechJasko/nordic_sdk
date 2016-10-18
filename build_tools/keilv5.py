@@ -35,22 +35,23 @@ def setup_tools(env):
 
     env['lib'] = list()
 
-    env.Replace(CC      = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armcc.Exe")
-    env.Replace(CXX     = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armcc.Exe")
-    env.Replace(AS      = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armasm.Exe")
-    env.Replace(AR      = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\ArmAr.Exe")
-    env.Replace(LD      = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\ArmLink.Exe")
-    env.Replace(LINK    = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\ArmLink.Exe")
-    env.Replace(NM      = "")
-    env.Replace(OBJDUMP = "")
-    env.Replace(OBJCOPY = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\FromElf.Exe")
-    env.Replace(RANLIB  = "ECHO") #TODO workaround
-    env.Replace(SIZE    = "")
+    env.Replace(CC          = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armcc.Exe")
+    env.Replace(CXX         = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armcc.Exe")
+    env.Replace(AS          = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armasm.Exe")
+    env.Replace(AR          = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\ArmAr.Exe")
+    env.Replace(LD          = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\ArmLink.Exe")
+    env.Replace(LINK        = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\ArmLink.Exe")
+    env.Replace(NM          = "")
+    env.Replace(OBJDUMP     = "")
+    env.Replace(OBJCOPY     = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\FromElf.Exe")
+    env.Replace(RANLIB      = "")
+    env.Replace(RANLIBCOM   = "")
+    env.Replace(SIZE        = "")
 
-    env.Replace(CCFLAGS = "")
-    env.Replace(LINKFLAGS = "")
-    env.Replace(ASFLAGS = "")
-    env.Replace(ARFLAGS = "-r")
+    env.Replace(CCFLAGS     = "")
+    env.Replace(LINKFLAGS   = "")
+    env.Replace(ASFLAGS     = "")
+    env.Replace(ARFLAGS     = "-r")
     env['PROGSUFFIX']   = '.axf'
 
     env['CCCOM']   = r'$CC $CFLAGS $CCFLAGS $CPPFLAGS $_CPPDEFFLAGS $_CPPINCFLAGS -c -o $TARGET $SOURCES'
@@ -130,7 +131,7 @@ def add_flags(env):
 def add_methods(env):
     def Hex(env, target, source, lib):
         #TODO: add asm and depends elffile from asmobjfile: Depends(elffile, asmobjfile)
-        source.append(TARGETS[env['MCU']]['startup']['keilv5'])
+        source.append(env['startup'])
         env['HEXSUFFIX'] = '.hex'
         elffile = env.Program(
             target = target,
