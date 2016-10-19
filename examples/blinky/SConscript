@@ -1,12 +1,13 @@
 Import('env')
 
 sources = [
-    "main.c"
+    "main.c",
+    env['source']['core']
 ]
 
-libs = [
-    env['lib']['core']
-]
+# libs = [
+#     env['lib']['core']
+# ]
 # includes = [
 #     '#boards',
 #     '#boards/pca10031',
@@ -29,4 +30,4 @@ libs = [
 
 #     Return('hexfile')
 
-env.Project(target = 'blinky', source = sources + libs)
+env.Project(target = 'blinky', source = sources)# + libs)

@@ -1,4 +1,5 @@
 import os
+
 def generate(env, **kwargs):
     setup_tools(env)
     add_methods(env)
@@ -41,7 +42,9 @@ def add_methods(env):
         return cmocks
 
     def addUnitTest(env, target, source):
-        utest = env.UnitTest(target, source)
+        utest_result = env.UnitTest(target, source)
+
+        utest = env.Install('#unit_test/', utest_result)
         # add alias to run all unit tests.
         env.Alias('unittests', utest)
         # make an alias to run the test in isolation from the rest of the tests.

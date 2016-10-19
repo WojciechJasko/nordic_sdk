@@ -56,7 +56,7 @@ def add_builders(env):
 
     def keil5_action(target, source, env): 
         with open(str(target[0]), 'w+') as f:
-            template = JinjaManager.instance().get_template('nrf51422.uvprojx')
+            template = JinjaManager.instance().get_template(env['MCU'] + '.uvprojx')
             f.write(template.render(source[0].read()))
 
     env.Append(BUILDERS={
