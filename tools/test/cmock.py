@@ -2,16 +2,12 @@ import os
 from SCons.Builder import Builder
 
 def generate(env, **kwargs):
-    setup_tools(env)
     add_builders(env)
-    add_methods(env)
 
 
 def exists(env):
     return env.Detect('ruby')
 
-def setup_tools(env):
-    env['cmock'] = dict()
 
 def add_builders(env):
     def cmock_emitter(target, source, env): 
@@ -39,18 +35,3 @@ def add_builders(env):
                                 emitter     = cmock_emitter,
                                 src_suffix  = '.h'),
                         })
-
-def add_methods(env):
-    def addCMock(env, headers):
-        cmocks = list()
-        for header in headers:
-            build_cmock = env.CMock(header)
-            cmock       = env.Install('#cmock/', build_cmock)
-            file_name   = os.path.splitext(str(build_cmock[0]))[0]
-
-            env['cmock'][file_name] = cmock[0]
-            cmocks.append(cmock)
-
-        return cmocks
-
-    env.AddMethod(addCMock,   "addCMock")

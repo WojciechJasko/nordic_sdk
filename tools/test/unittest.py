@@ -6,6 +6,7 @@ COMMON_SRC = list()
 
 def generate(env, **kwargs):
     setup_tools(env)
+    add_builders(env)
     add_methods(env)
 
 
@@ -29,14 +30,22 @@ def setup_tools(env):
     COMMON_SRC.append(os.path.join(cmock_path, 'cmock.c'))
 
 
-def add_methods(env):
-    def UnitTest(env, target, source):
+def add_builders(env):
+    def UnitTestRunner(env, target, source):
         app = source[0].abspath
         with open(target[0].abspath, 'w+') as f:
             subprocess.call(app, stdout=f)
-        env['unittest'].append(target)
 
-    def addUnitTest(env, target, source, *args, **kwargs):
+    env.Append(BUILDERS={
+                        'UnitTestRunner': Builder(
+                            action   = UnitTestRunner,
+                            suffix = '.result',
+                            ),
+                    })
+
+
+def add_methods(env):
+    def UnitTest(env, target, source, *args, **kwargs):
         source_list = list()
         source_list.append(source)
 
@@ -50,19 +59,7 @@ def add_methods(env):
 
         name    = os.path.splitext(target)[0]
         program = env.Program(target=name, source = source_list, *args, **kwargs)
-        utest   = env.UnitTest(program)
 
-        # add alias to run all unit tests.
-        env.Alias('unittests', utest)
-        # make an alias to run the test in isolation from the rest of the tests.
-        env.Alias(str(program[0]), utest)
-        return utest
+        return env.UnitTestRunner(program)
 
     env.AddMethod(UnitTest, "UnitTest")
-    env.Append(BUILDERS={
-                        'UnitTest': Builder(
-                            action   = UnitTest,
-                            suffix = '.result',
-                            ),
-                    })
-    env.AddMethod(addUnitTest, "addUnitTest")

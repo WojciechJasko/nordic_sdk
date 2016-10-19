@@ -19,8 +19,8 @@ armgcc_env = Environment(
     name        = 'armgcc',
     type        = 'build',
     variables   = vars,
-    tools       = ['armgcc'],
-    toolpath    = ['build_tools'],
+    tools       = ['manager', 'armgcc'],
+    toolpath    = ['tools', 'tools/build'],
 )
 
 keilv5_env = Environment(
@@ -28,8 +28,8 @@ keilv5_env = Environment(
     name        = 'keilv5',
     type        = 'build',
     variables   = vars,
-    tools       = ['keilv5', 'keilv5_project'],
-    toolpath    = ['build_tools', 'project_tools'],
+    tools       = ['manager', 'keilv5', 'keilv5_project'],
+    toolpath    = ['tools', 'tools/build', 'tools/project'],
 )
 
 unittest_env = Environment(
@@ -37,8 +37,8 @@ unittest_env = Environment(
     name        = 'unittest',
     type        = 'unittest',
     variables   = vars,
-    tools       = ['unittest'],
-    toolpath    = ['test_tools'],
+    tools       = ['manager', 'unittest'],
+    toolpath    = ['tools', 'tools/test'],
 )
 
 envs = [keilv5_env]
@@ -56,8 +56,5 @@ for env in envs:
 
 # Build Core
 for env in envs:
-    SConscript('core/SConscript', exports='env', variant_dir='_build/core/' + env['name'], duplicate=0)
-
-    # SConscript('boards/SConscript', exports='env', variant_dir='_build/boards/' + env['name'], duplicate=0)
-
-    SConscript('examples/SConscript', exports='env')
+    SConscript('core/SConscript',       exports='env', variant_dir='_build/core/' + env['name'], duplicate=0)
+    SConscript('examples/SConscript',   exports='env')

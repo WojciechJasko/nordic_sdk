@@ -31,8 +31,6 @@ def setup_tools(env):
     for tool in ['gcc','g++','ar', 'gnulink']:
         env.Tool(tool)
 
-    env['lib'] = dict()
-
     env.Replace(CC      = "arm-none-eabi-gcc")
     env.Replace(CXX     = "arm-none-eabi-g++")
     env.Replace(AS      = "arm-none-eabi-as")
@@ -140,15 +138,5 @@ def add_methods(env):
         env.Depends( hexfile, elffile )
         return elffile
 
-    def addLibrary(env, target, source):
-        build_library = env.Library(
-            target = target,
-            source = source
-        )
-        library = env.Install('#libs/' + env['name'], build_library)
-        env['lib'][target] = library
-        return library
-
-    env.AddMethod(Hex,          "Hex")
-    env.AddMethod(addLibrary,   "addLibrary")
+    env.AddMethod(Hex, "Hex")
 
