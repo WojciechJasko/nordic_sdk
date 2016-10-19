@@ -1,10 +1,12 @@
-import os
 Import('env')
 
 sources = [
     "main.c"
 ]
 
+libs = [
+    env['lib']['core']
+]
 # includes = [
 #     '#boards',
 #     '#boards/pca10031',
@@ -27,4 +29,4 @@ sources = [
 
 #     Return('hexfile')
 
-env.Keilv5Project(target = 'blinky', source = sources)
+env.Project(target = 'blinky', source = sources + libs)

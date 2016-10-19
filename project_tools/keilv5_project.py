@@ -17,7 +17,6 @@ def exists(env):
 
 def add_builders(env):
     def keil5_emitter(target, source, env):
-        assert(len(source) == 1)
         data                = dict()
         data['defines']     = processDefines(env.get('CPPDEFINES', []))
         data['includes']    = list()
@@ -39,8 +38,11 @@ def add_builders(env):
             new['path'] = path
 
             ext = os.path.splitext(path)[1]
-            if ext in ['.S', '.s','.c']:
+            if ext in ['.c']:
                 new['type'] = '1'
+
+            elif ext in ['.S', '.s']:
+                new['type'] = '2'
 
             elif ext == '.lib':
                 new['type'] = '4'
@@ -58,7 +60,7 @@ def add_builders(env):
             f.write(template.render(source[0].read()))
 
     env.Append(BUILDERS={
-                            'Keilv5Project': Builder(
+                            'Project': Builder(
                                 action  = keil5_action,
                                 emitter = keil5_emitter,
                                 suffix  = '.uvprojx')

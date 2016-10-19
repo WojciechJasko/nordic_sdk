@@ -31,7 +31,7 @@ def setup_tools(env):
     for tool in ['gcc','g++','ar', 'gnulink']:
         env.Tool(tool)
 
-    env['lib'] = list()
+    env['lib'] = dict()
 
     env.Replace(CC      = "arm-none-eabi-gcc")
     env.Replace(CXX     = "arm-none-eabi-g++")
@@ -146,7 +146,7 @@ def add_methods(env):
             source = source
         )
         library = env.Install('#libs/' + env['name'], build_library)
-        env['lib'].append(library)
+        env['lib'][target] = library
         return library
 
     env.AddMethod(Hex,          "Hex")

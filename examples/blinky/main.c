@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include "nrf_core.h"
 
-#define LED_RED 21
+#define LED_RED 18
 
 void nrf_board_init(void)
 {

@@ -329,13 +329,9 @@
             <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>
-                {%- for define in defines %}{{ define }}{%- endfor %}
-              </Define>
+              <Define>{%- for define in defines %}{{ define }}{%- endfor %}</Define>
               <Undefine></Undefine>
-              <IncludePath>
-                {%- for include in includes %}{%- if loop.first %}{{ include }}{% else %};{{ include }}{%- endif %}{%- endfor %}
-              </IncludePath>
+              <IncludePath>{%- for include in includes %}{%- if loop.first %}{{ include }}{% else %};{{ include }}{%- endif %}{%- endfor %}</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -349,16 +345,10 @@
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
             <VariousControls>
-              <MiscControls>
-                {% if "defines" %}--cpreproc_opts={%- for define in defines %}-D{{ define }}{%if not loop.last %},{% endif %}{%- endfor %}{% endif %}
-              </MiscControls>
-              <Define>
-                {%- for define in defines %}{{ define }}{%- endfor %}
-              </Define>
+              <MiscControls>{% if "defines" %}--cpreproc_opts={%- for define in defines %}-D{{ define }}{%if not loop.last %},{% endif %}{%- endfor %}{% endif %}</MiscControls>
+              <Define>{%- for define in defines %}{{ define }}{%- endfor %}</Define>
               <Undefine></Undefine>
-              <IncludePath>
-                {%- for include in includes %}{%- if loop.first %}{{ include }}{% else %};{{ include }}{%- endif %}{%- endfor %}
-              </IncludePath>
+              <IncludePath>{%- for include in includes %}{%- if loop.first %}{{ include }}{% else %};{{ include }}{%- endif %}{%- endfor %}</IncludePath>
             </VariousControls>
           </Aads>
           <LDads>

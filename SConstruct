@@ -61,4 +61,3 @@ for env in envs:
     # SConscript('boards/SConscript', exports='env', variant_dir='_build/boards/' + env['name'], duplicate=0)
 
     SConscript('examples/SConscript', exports='env')
-

@@ -33,7 +33,7 @@ def setup_tools(env):
     for tool in ['gcc','g++','ar', 'gnulink', 'nasm']:
         env.Tool(tool)
 
-    env['lib'] = list()
+    env['lib'] = dict()
 
     env.Replace(CC          = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armcc.Exe")
     env.Replace(CXX         = env['ENV']['KEIL5'] + "\\ARM\\ARMCC\\BIN\\Armcc.Exe")
@@ -148,7 +148,7 @@ def add_methods(env):
             source = source
         )
         library = env.Install('#libs/' + env['name'], build_library)
-        env['lib'].append(library)
+        env['lib'][target] = library
         return library
 
     env.AddMethod(Hex,          "Hex")
