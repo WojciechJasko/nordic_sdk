@@ -124,6 +124,12 @@ def add_flags(env):
     else:
         raise Exception("Not supported build type: {}".format(env['BUILD_TYPE']))
 
+    # MCU description
+    env['MCU_FLASHADDR'] = TARGETS[env['MCU']]['flash_addr']
+    env['MCU_FLASHSIZE'] = TARGETS[env['MCU']]['flash_size']
+    env['RAM_FLASHADDR'] = TARGETS[env['MCU']]['ram_addr']
+    env['RAM_FLASHSIZE'] = TARGETS[env['MCU']]['ram_size']
+
 
 def add_methods(env):
     def Hex(env, target, source, lib):

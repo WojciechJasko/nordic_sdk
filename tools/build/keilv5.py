@@ -127,6 +127,12 @@ def add_flags(env):
     else:
         raise Exception("Not supported build type: {}".format(env['BUILD_TYPE']))
 
+    # MCU description
+    env['MCU_FLASHADDR'] = TARGETS[env['MCU']]['flash_addr']
+    env['MCU_FLASHSIZE'] = TARGETS[env['MCU']]['flash_size']
+    env['MCU_RAMADDR'] = TARGETS[env['MCU']]['ram_addr']
+    env['MCU_RAMSIZE'] = TARGETS[env['MCU']]['ram_size']
+
 def add_methods(env):
     def Hex(env, target, source, lib):
         #TODO: add asm and depends elffile from asmobjfile: Depends(elffile, asmobjfile)
