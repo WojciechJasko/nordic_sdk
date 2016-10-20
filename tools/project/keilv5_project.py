@@ -17,23 +17,42 @@ def exists(env):
 
 def add_builders(env):
     def keil5_emitter(target, source, env):
-        data                = dict()
-        data['defines']     = processDefines(env.get('CPPDEFINES', []))
-        data['includes']    = list()
-
+        assert(len(target) == 1)
+        data        = dict()
         root_dir    = env.Dir("#").abspath
         target_dir  = os.path.dirname(target[0].abspath)
-        print(target_dir)
+
+        file    = str(target[0])
+        target  = list()
+        target.append(file + '.uvprojx')
+        target.append(file + '.uvoptx')
+
+        # Add SVD-File.
+        if env['MCU'].startswith('NRF51'):
+            path                = os.path.join(os.path.dirname(__file__), 'keil', 'svd', 'nrf51.svd')
+            data['svd_file']    = os.path.relpath(path, target_dir)
+            print(data['svd_file'])
+
+        elif env['MCU'].startswith('NRF52'):
+            path                = os.path.join(os.path.dirname(__file__), 'keil', 'svd', 'nrf52.svd')
+            data['svd_file']    = os.path.relpath(path, target_dir)
+
+        # Add defines.
+        data['defines'] = processDefines(env.get('CPPDEFINES', []))
+
+        # Add includes.
+        data['includes'] = list()
         for path in env.get('CPPPATH', []):
             path = root_dir + '/' + path[1:]
             data['includes'].append(os.path.relpath(path, target_dir))
 
-        source.append(env['startup'])
+        # Add files.
         data['files'] = list()
+        source.append(env['startup'])
         for s in source:
             path = os.path.relpath(s.srcnode().abspath, target_dir)
 
-            new  = dict()
+            new         = dict()
             new['name'] = os.path.basename(path)
             new['path'] = path
 
@@ -59,9 +78,12 @@ def add_builders(env):
             template = JinjaManager.instance().get_template(env['MCU'] + '.uvprojx')
             f.write(template.render(source[0].read()))
 
+        with open(str(target[1]), 'w+') as f:
+            template = JinjaManager.instance().get_template(env['MCU'] + '.uvoptx')
+            f.write(template.render(source[0].read()))
+
     env.Append(BUILDERS={
                             'Project': Builder(
                                 action  = keil5_action,
-                                emitter = keil5_emitter,
-                                suffix  = '.uvprojx')
+                                emitter = keil5_emitter)
                         })

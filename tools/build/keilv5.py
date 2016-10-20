@@ -57,6 +57,7 @@ def setup_tools(env):
     env['ASCOM']   = r'$AS $ASFLAGS -o $TARGET $SOURCES'
 
     env['ASSUFFIXES'] = ['.s', '.asm', '.ASM']
+    env['LIBSUFFIX']  = '.lib'
 
 
 def add_flags(env):
