@@ -2,8 +2,7 @@ import os
 Import('env')
 
 sources = [
-    "main.c",
-    env['source']['core']
+    "main.c"
 ]
 
 libs = [
@@ -17,4 +16,4 @@ if env['MCU'].startswith('NRF51'):
         env['LINKFLAGS'] += ['--scatter='+os.path.realpath(Dir('#/examples/blinky').abspath+'/nrf51422_xxaa.sct')]
 
 env.Hex(target = 'blinky', source = sources, lib=libs)
-env.Project(target = 'blinky', source = sources)# + libs)
+env.Project(target = 'blinky', source = sources + libs)
