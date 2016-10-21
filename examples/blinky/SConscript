@@ -15,5 +15,5 @@ if env['MCU'].startswith('NRF51'):
     if 'keilv5' in env['TOOLS']:
         env['LINKFLAGS'] += ['--scatter='+os.path.realpath(Dir('#/examples/blinky').abspath+'/nrf51422_xxaa.sct')]
 
-env.Hex(target = 'blinky', source = sources, lib=libs)
+env.addHex(target = 'blinky', source = sources, lib=libs)
 env.Project(target = 'blinky', source = sources + libs)

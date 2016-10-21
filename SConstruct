@@ -19,7 +19,7 @@ armgcc_env = Environment(
     name        = 'armgcc',
     type        = 'build',
     variables   = vars,
-    tools       = ['manager', 'armgcc'],
+    tools       = ['manager', 'armgcc_build'],
     toolpath    = ['tools', 'tools/build'],
 )
 
@@ -28,7 +28,7 @@ keilv5_env = Environment(
     name        = 'keilv5',
     type        = 'build',
     variables   = vars,
-    tools       = ['manager', 'keilv5', 'keilv5_project'],
+    tools       = ['manager', 'keilv5_build', 'keilv5_project'],
     toolpath    = ['tools', 'tools/build', 'tools/project'],
 )
 
@@ -56,5 +56,9 @@ for env in envs:
 
 # Build Core
 for env in envs:
-    SConscript('core/SConscript',       exports='env', variant_dir='_build/core/' + env['name'], duplicate=0)
-    SConscript('examples/SConscript',   exports='env')
+    SConscript('core/SConscript',
+                exports     = 'env',
+                variant_dir ='_build/core/{}/{}/{}'.format(env['name'], env['MCU'], env['BUILD_TYPE']),
+                duplicate   = 0)
+    SConscript('examples/SConscript',
+                exports='env')

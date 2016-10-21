@@ -51,7 +51,21 @@ def add_methods(env):
         env.Alias(os.path.splitext(target)[0], utest)
         return utest
 
+    def addHex(env, target, source, lib = None):
+        if not lib:
+            lib = list()
+
+        source.append(env['startup'])
+        elffile = env.Program(
+            target  = target,
+            source  = source,
+            LIBS    = lib
+        )
+        hexfile = env.Elf2Hex(elffile)
+        return hexfile
+
     env.AddMethod(addLibrary,   "addLibrary")
     env.AddMethod(addSource,    "addSource")
     env.AddMethod(addCMock,     "addCMock")
     env.AddMethod(addUnitTest,  "addUnitTest")
+    env.AddMethod(addHex,       "addHex")

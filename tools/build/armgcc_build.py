@@ -4,23 +4,19 @@ import json
 from SCons.Builder import Builder
 
 TARGETS     = None
-compilers   = ["arm-none-eabi-gcc", "arm-none-eabi-g++"]
 
 def generate(env, **kwargs):
     setup_environment(env)
     setup_tools(env)
     add_flags(env)
-    add_methods(env)
+    add_builders(env)
 
 
 def exists(env):
-    return env.Detect(env.get('CC', compilers))
+    return 1
 
 
 def setup_environment(env):
-    assert env.has_key('MCU'), "You need to specify processor (MCU=<cpu>)"
-    assert env.has_key('BUILD_TYPE'), "You need to specify build type (BUILD_TYPE=<build_type>)"
-
     path = env.get('NORDIC_CONFIG', os.path.join(os.path.dirname(__file__), 'default_config.json'))
     with open(path, 'r') as f:
         global TARGETS
@@ -42,6 +38,7 @@ def setup_tools(env):
     env.Replace(RANLIB  = "arm-none-eabi-ranlib")
     env.Replace(SIZE    = "arm-none-eabi-size")
     env['PROGSUFFIX']   = '.elf'
+    env['HEXSUFFIX']    = '.hex'
 
 
 
@@ -131,18 +128,10 @@ def add_flags(env):
     env['RAM_FLASHSIZE'] = TARGETS[env['MCU']]['ram_size']
 
 
-def add_methods(env):
-    def Hex(env, target, source, lib):
-        env['HEXSUFFIX'] = '.hex'
-        source.append(env['startup'])
-        elffile = env.Program(
-            target=target,
-            source = source,
-            LIBS=lib
-        )
-        hexfile = env.Command(target, source, "$OBJCOPY -O ihex $TARGET$PROGSUFFIX $TARGET$HEXSUFFIX")
-        env.Depends( hexfile, elffile )
-        return elffile
-
-    env.AddMethod(Hex, "Hex")
-
+def add_builders(env):
+    env.Append(BUILDERS={
+                            'Elf2Hex': Builder(
+                                action      = "$OBJCOPY -O ihex $SOURCE -o $TARGET",
+                                suffix      = env['HEXSUFFIX'],
+                                src_suffix  = env['PROGSUFFIX'])
+                        })

@@ -16,7 +16,7 @@ def exists(env):
 
 
 def add_builders(env):
-    def keil5_emitter(target, source, env):
+    def project_emitter(target, source, env):
         assert(len(target) == 1)
         data        = dict()
         root_dir    = env.Dir("#").abspath
@@ -31,7 +31,6 @@ def add_builders(env):
         if env['MCU'].startswith('NRF51'):
             path                = os.path.join(os.path.dirname(__file__), 'keil', 'svd', 'nrf51.svd')
             data['svd_file']    = os.path.relpath(path, target_dir)
-            print(data['svd_file'])
 
         elif env['MCU'].startswith('NRF52'):
             path                = os.path.join(os.path.dirname(__file__), 'keil', 'svd', 'nrf52.svd')
@@ -73,7 +72,7 @@ def add_builders(env):
 
         return (target, [Python.Value(data)])
 
-    def keil5_action(target, source, env): 
+    def project_action(target, source, env): 
         with open(str(target[0]), 'w+') as f:
             template = JinjaManager.instance().get_template(env['MCU'] + '.uvprojx')
             f.write(template.render(source[0].read()))
@@ -84,6 +83,6 @@ def add_builders(env):
 
     env.Append(BUILDERS={
                             'Project': Builder(
-                                action  = keil5_action,
-                                emitter = keil5_emitter)
+                                action  = project_action,
+                                emitter = project_emitter)
                         })
