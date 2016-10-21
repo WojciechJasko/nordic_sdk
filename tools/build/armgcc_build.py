@@ -10,6 +10,7 @@ def generate(env, **kwargs):
     setup_tools(env)
     add_flags(env)
     add_builders(env)
+    add_methods(env)
 
 
 def exists(env):
@@ -124,14 +125,21 @@ def add_flags(env):
     # MCU description
     env['MCU_FLASHADDR'] = TARGETS[env['MCU']]['flash_addr']
     env['MCU_FLASHSIZE'] = TARGETS[env['MCU']]['flash_size']
-    env['RAM_FLASHADDR'] = TARGETS[env['MCU']]['ram_addr']
-    env['RAM_FLASHSIZE'] = TARGETS[env['MCU']]['ram_size']
+    env['MCU_RAMADDR'] = TARGETS[env['MCU']]['ram_addr']
+    env['MCU_RAMSIZE'] = TARGETS[env['MCU']]['ram_size']
 
 
 def add_builders(env):
     env.Append(BUILDERS={
                             'Elf2Hex': Builder(
-                                action      = "$OBJCOPY -O ihex $SOURCE -o $TARGET",
+                                action      = "$OBJCOPY -O ihex $SOURCE $TARGET",
                                 suffix      = env['HEXSUFFIX'],
                                 src_suffix  = env['PROGSUFFIX'])
                         })
+
+def add_methods(env):
+    def addLinkerScript(env, source):
+        env.Append(LINKFLAGS = '-T'+source[0].abspath)
+        return source
+
+    env.AddMethod(addLinkerScript,   "addLinkerScript")
