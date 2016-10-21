@@ -1,53 +1,62 @@
 import os
 
 # Setup Command Line
-vars = Variables()
-vars.AddVariables(
-    EnumVariable('MCU',
-                 'Set MCU',
-                 'NRF51422',
-                 allowed_values=('NRF52832', 'NRF51822', 'NRF51422')),
-    EnumVariable('BUILD_TYPE',
-                 'Set build type',
-                 'release',
-                 allowed_values=('release', 'debug')),
-)
+AddOption('--mcu',
+          dest      = 'MCU',
+          default   = 'NRF51422',
+          choices   = ['NRF52832', 'NRF51822', 'NRF51422'],
+          help      = 'Set MCU type.')
 
-unknown = vars.UnknownVariables()
-if unknown:
-    print "Unknown variables:", unknown.keys()
-    Exit(1)
+AddOption('--build_type',
+          dest      = 'BUILD_TYPE',
+          default   = 'release',
+          choices   = ['release', 'debug'],
+          help      = 'Set build type.')
 
+AddOption('--toolchain',
+          dest      = 'TOOLCHAIN',
+          default   = 'armgcc',
+          action    = "append",
+          choices   = ['armgcc', 'keilv5', 'unittest'],
+          help      = 'Append toolchain type.')
 
 # Create Environments
-armgcc_env = Environment(
-    ENV         = os.environ,
-    name        = 'armgcc',
-    type        = 'build',
-    variables   = vars,
-    tools       = ['manager', 'armgcc_build', 'armgcc_linker'],
-    toolpath    = ['tools', 'tools/build', 'tools/linkgen'],
-)
+envs = list()
 
-keilv5_env = Environment(
-    ENV         = os.environ,
-    name        = 'keilv5',
-    type        = 'build',
-    variables   = vars,
-    tools       = ['manager', 'keilv5_build', 'keilv5_project', 'keilv5_linker'],
-    toolpath    = ['tools', 'tools/build', 'tools/project', 'tools/linkgen'],
-)
+if 'armgcc' in GetOption('TOOLCHAIN'):
+    envs.append(
+        Environment(
+            ENV         = os.environ,
+            name        = 'armgcc',
+            type        = 'build',
+            MCU         = GetOption('MCU'),
+            BUILD_TYPE  = GetOption('BUILD_TYPE'),
+            tools       = ['manager', 'armgcc_build', 'armgcc_linker'],
+            toolpath    = ['tools', 'tools/build', 'tools/linkgen'],
+        ))
 
-unittest_env = Environment(
-    ENV         = os.environ,
-    name        = 'unittest',
-    type        = 'unittest',
-    variables   = vars,
-    tools       = ['manager', 'unittest'],
-    toolpath    = ['tools', 'tools/test'],
-)
+if 'keilv5' in GetOption('TOOLCHAIN'):
+    envs.append(
+        Environment(
+            ENV         = os.environ,
+            name        = 'keilv5',
+            type        = 'build',
+            MCU         = GetOption('MCU'),
+            BUILD_TYPE  = GetOption('BUILD_TYPE'),
+            tools       = ['manager', 'keilv5_build', 'keilv5_project', 'keilv5_linker'],
+            toolpath    = ['tools', 'tools/build', 'tools/project', 'tools/linkgen'],
+        ))
 
-envs = [keilv5_env]
+if 'unittest' in GetOption('TOOLCHAIN'):
+    envs.append(
+        Environment(
+            ENV         = os.environ,
+            name        = 'unittest',
+            type        = 'unittest',
+            MCU         = GetOption('MCU'),
+            tools       = ['manager', 'unittest'],
+            toolpath    = ['tools', 'tools/test'],
+        ))
 
 # Setup Environments
 for env in envs:
@@ -62,5 +71,9 @@ for env in envs:
 
 # Build Core
 for env in envs:
-    SConscript('core/SConscript',       exports='env', variant_dir='_build/core/' + env['name'], duplicate=0)
-    SConscript('examples/SConscript',   exports='env')
+    SConscript('core/SConscript',
+               exports      = 'env',
+               variant_dir  = '_build/core/' + env['name'],
+               duplicate    = 0)
+    SConscript('examples/SConscript',
+                exports     = 'env')
