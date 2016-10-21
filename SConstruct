@@ -13,6 +13,12 @@ vars.AddVariables(
                  allowed_values=('release', 'debug')),
 )
 
+unknown = vars.UnknownVariables()
+if unknown:
+    print "Unknown variables:", unknown.keys()
+    Exit(1)
+
+
 # Create Environments
 armgcc_env = Environment(
     ENV         = os.environ,

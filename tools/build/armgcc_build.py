@@ -41,7 +41,6 @@ def setup_tools(env):
     env['HEXSUFFIX']    = '.hex'
 
 
-
 def add_flags(env):
     # Common
     env.Append(CCFLAGS = [
