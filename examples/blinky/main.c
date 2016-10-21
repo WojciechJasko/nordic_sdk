@@ -26,6 +26,7 @@
 #include "nrf_core.h"
 
 #define LED_RED 18
+#define LED_MY_RED 21
 
 void nrf_board_init(void)
 {
@@ -34,23 +35,28 @@ void nrf_board_init(void)
                           | (GPIO_PIN_CNF_PULL_Disabled     << GPIO_PIN_CNF_PULL_Pos)
                           | (GPIO_PIN_CNF_DRIVE_S0S1        << GPIO_PIN_CNF_DRIVE_Pos)
                           | (GPIO_PIN_CNF_SENSE_Disabled    << GPIO_PIN_CNF_SENSE_Pos);
+    NRF_GPIO->PIN_CNF[LED_MY_RED] = (GPIO_PIN_CNF_DIR_Output   << GPIO_PIN_CNF_DIR_Pos)
+                          | (GPIO_PIN_CNF_INPUT_Disconnect  << GPIO_PIN_CNF_INPUT_Pos)
+                          | (GPIO_PIN_CNF_PULL_Disabled     << GPIO_PIN_CNF_PULL_Pos)
+                          | (GPIO_PIN_CNF_DRIVE_S0S1        << GPIO_PIN_CNF_DRIVE_Pos)
+                          | (GPIO_PIN_CNF_SENSE_Disabled    << GPIO_PIN_CNF_SENSE_Pos);
 }
 
 void nrf_board_led_on(uint32_t led_number)
 {
-    NRF_GPIO->OUTSET = (1<<LED_RED);
+    NRF_GPIO->OUTSET = (1<<led_number);
 }
 
 void nrf_board_led_off(uint32_t led_number)
 {
-    NRF_GPIO->OUTCLR = (1<<LED_RED);
+    NRF_GPIO->OUTCLR = (1<<led_number);
 }
 
 void nrf_board_led_invert(uint32_t led_number)
 {
     uint32_t gpio_state = NRF_GPIO->OUT;
-    NRF_GPIO->OUTSET = ((1<<LED_RED) & ~gpio_state);
-    NRF_GPIO->OUTCLR = ((1<<LED_RED) & gpio_state);
+    NRF_GPIO->OUTSET = ((1<<led_number) & ~gpio_state);
+    NRF_GPIO->OUTCLR = ((1<<led_number) & gpio_state);
 }
 
 /**
@@ -65,7 +71,8 @@ int main(void)
     /* Toggle LEDs. */
     while (true)
     {
-        nrf_board_led_invert(0);
+        nrf_board_led_invert(LED_RED);
+        nrf_board_led_invert(LED_MY_RED);
         i=1000000;
         while(i-- != 0);
     }

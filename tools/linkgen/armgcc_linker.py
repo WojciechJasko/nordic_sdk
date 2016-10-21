@@ -20,13 +20,13 @@ def exists(env):
 
 def setup_environment(env):
     global jinjaEnv
-    jinjaEnv = Environment(loader                   = PackageLoader('keilv5_linker', 'templates'),
+    jinjaEnv = Environment(loader                   = PackageLoader('armgcc_linker', 'templates'),
                            trim_blocks              = True,
                            lstrip_blocks            = True,
                            keep_trailing_newline    = True)
 
 def add_builders(env):
-    def keil5_linker_emitter(target, source, env):
+    def armgcc_linker_emitter(target, source, env):
         data                = dict()
         data['flash'] = dict()
         data['flash']['address'] = env['MCU_FLASHADDR']
@@ -34,7 +34,7 @@ def add_builders(env):
 
         data['ram'] = dict()
         data['ram']['address'] = env['MCU_RAMADDR']
-        data['ram']['length'] = env['MCU_RAMADDR']
+        data['ram']['length'] = env['MCU_RAMSIZE']
 
         data['sections'] = list()
 
@@ -47,15 +47,15 @@ def add_builders(env):
 
         return (target, [Python.Value(data)])
 
-    def keil5_linker_action(target, source, env):
+    def armgcc_linker_action(target, source, env):
         global jinjaEnv
         with open(str(target[0]), 'w+') as f:
-            template = jinjaEnv.get_template('linker_template.sct')
+            template = jinjaEnv.get_template('linker_template.ld')
             f.write(template.render(source[0].read()))
 
     env.Append(BUILDERS={
                             'Linkgen': Builder(
-                                action  = keil5_linker_action,
-                                emitter = keil5_linker_emitter,
-                                suffix  = '.sct')
+                                action  = armgcc_linker_action,
+                                emitter = armgcc_linker_emitter,
+                                suffix  = '.ld')
                         })

@@ -51,17 +51,20 @@ def add_methods(env):
         env.Alias(os.path.splitext(target)[0], utest)
         return utest
 
-    def addHex(env, target, source, lib = None):
+    def addHex(env, target, source, linker_file, lib = None):
         if not lib:
             lib = list()
+        local_env = env.Clone()
+        local_env.addLinkerScript(linker_file)
 
         source.append(env['startup'])
-        elffile = env.Program(
+        elffile = local_env.Program(
             target  = target,
             source  = source,
             LIBS    = lib
         )
-        hexfile = env.Elf2Hex(elffile)
+        hexfile = local_env.Elf2Hex(elffile)
+        local_env.Depends(elffile, linker_file)
         return hexfile
 
     env.AddMethod(addLibrary,   "addLibrary")

@@ -10,6 +10,7 @@ def generate(env, **kwargs):
     setup_tools(env)
     add_flags(env)
     add_builders(env)
+    add_methods(env)
 
 
 def exists(env):
@@ -136,3 +137,10 @@ def add_builders(env):
                                 suffix      = env['HEXSUFFIX'],
                                 src_suffix  = env['PROGSUFFIX'])
                         })
+
+def add_methods(env):
+    def addLinkerScript(env, source):
+        env.Append(LINKFLAGS = '--scatter='+source[0].abspath)
+        return source
+
+    env.AddMethod(addLinkerScript,   "addLinkerScript")
