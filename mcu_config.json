@@ -1,0 +1,18 @@
+{
+    "NRF52832": {
+      "cortex":     "M4",
+      "fpu":        "hard",
+      "flash_addr": "0x00000000",
+      "flash_size": "0x00080000",
+      "ram_addr":   "0x20000000",
+      "ram_size":   "0x00008000"
+    },
+    "NRF51422": {
+      "cortex":     "M0",
+      "fpu":        "soft",
+      "flash_addr": "0x00000000",
+      "flash_size": "0x00080000",
+      "ram_addr":   "0x20000000",
+      "ram_size":   "0x00008000"
+    }
+}

@@ -1,12 +1,9 @@
 import os
-import json
 
 from SCons.Builder import Builder
 
-TARGETS     = None
 
 def generate(env, **kwargs):
-    setup_environment(env)
     setup_tools(env)
     add_flags(env)
     add_builders(env)
@@ -15,13 +12,6 @@ def generate(env, **kwargs):
 
 def exists(env):
     return 1
-
-
-def setup_environment(env):
-    path = env.get('NORDIC_CONFIG', os.path.join(os.path.dirname(__file__), 'default_config.json'))
-    with open(path, 'r') as f:
-        global TARGETS
-        TARGETS = json.load(f)
 
 
 def setup_tools(env):
@@ -69,9 +59,8 @@ def add_flags(env):
                             "-lnosys"
                         ])
 
-    global TARGETS
     # Target
-    if TARGETS[env['MCU']]['target'] == 'cortex_m0':
+    if env['mcu_config']['cortex'] == 'M0':
         env.Append(CCFLAGS = [
                                 "-mcpu=cortex-m0"
                             ])
@@ -80,7 +69,7 @@ def add_flags(env):
                                 "-mcpu=cortex-m0"
                             ])
 
-    elif TARGETS[env['MCU']]['target'] == 'cortex_m4':
+    elif env['mcu_config']['cortex'] == 'M4':
         env.Append(CCFLAGS = [
                                 "-mcpu=cortex-m4"
                             ])
@@ -90,42 +79,36 @@ def add_flags(env):
                             ])
 
     else:
-        raise Exception("Not supported target: {}".format(TARGETS[env['MCU']]['target']))
+        raise Exception("Not supported target: {}".format(env['mcu_config']['cortex']))
 
     # FPU
-    if TARGETS[env['MCU']]['fpu'] == 'hard':
+    if env['mcu_config']['fpu'] == 'hard':
         env.Append(CCFLAGS = [
                                 "-mfloat-abi=hard",
                                 "-mfpu=fpv4-sp-d16",
                             ])
 
-    elif TARGETS[env['MCU']]['fpu'] == 'soft':
+    elif env['mcu_config']['fpu'] == 'soft':
         env.Append(CCFLAGS = [
                                 "-mfloat-abi=soft"
                             ])
 
     else:
-        raise Exception("Not supported fpu: {}".format(TARGETS[env['MCU']]['fpu']))
+        raise Exception("Not supported fpu: {}".format(env['mcu_config']['fpu']))
 
     # Build Type
-    if env['BUILD_TYPE'] == "debug":
+    if env['build_type'] == "debug":
         env.Append(CCFLAGS = [
                               "-O0",
                             ])
 
-    elif env['BUILD_TYPE'] == "release":
+    elif env['build_type'] == "release":
         env.Append(CCFLAGS = [
                               "-O3",
                             ])
 
     else:
-        raise Exception("Not supported build type: {}".format(env['BUILD_TYPE']))
-
-    # MCU description
-    env['MCU_FLASHADDR'] = TARGETS[env['MCU']]['flash_addr']
-    env['MCU_FLASHSIZE'] = TARGETS[env['MCU']]['flash_size']
-    env['MCU_RAMADDR'] = TARGETS[env['MCU']]['ram_addr']
-    env['MCU_RAMSIZE'] = TARGETS[env['MCU']]['ram_size']
+        raise Exception("Not supported build type: {}".format(env['build_type']))
 
 
 def add_builders(env):

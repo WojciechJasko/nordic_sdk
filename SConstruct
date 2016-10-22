@@ -1,59 +1,64 @@
 import os
+import json
 
 # Setup Command Line
 AddOption('--mcu',
-          dest      = 'MCU',
           default   = 'NRF51422',
           choices   = ['NRF52832', 'NRF51822', 'NRF51422'],
-          help      = 'Set MCU type.')
+          help      = 'Set mcu type.')
 
 AddOption('--build_type',
-          dest      = 'BUILD_TYPE',
           default   = 'release',
           choices   = ['release', 'debug'],
           help      = 'Set build type.')
 
 AddOption('--toolchain',
-          dest      = 'TOOLCHAIN',
           default   = 'armgcc',
           action    = "append",
           choices   = ['armgcc', 'keilv5', 'unittest'],
           help      = 'Append toolchain type.')
 
+path = os.path.join(Dir("#").abspath, 'mcu_config.json')
+with open(path, 'r') as f:
+    mcu_config = json.load(f)[GetOption('mcu')]
+
 # Create Environments
 envs = list()
 
-if 'armgcc' in GetOption('TOOLCHAIN'):
+if 'armgcc' in GetOption('toolchain'):
     envs.append(
         Environment(
             ENV         = os.environ,
             name        = 'armgcc',
             type        = 'build',
-            MCU         = GetOption('MCU'),
-            BUILD_TYPE  = GetOption('BUILD_TYPE'),
+            mcu         = GetOption('mcu'),
+            mcu_config  = mcu_config,
+            build_type  = GetOption('build_type'),
             tools       = ['manager', 'armgcc_build', 'armgcc_linker'],
-            toolpath    = ['tools', 'tools/build', 'tools/linkgen'],
+            toolpath    = ['tools', 'tools/build', 'tools/linker'],
         ))
 
-if 'keilv5' in GetOption('TOOLCHAIN'):
+if 'keilv5' in GetOption('toolchain'):
     envs.append(
         Environment(
             ENV         = os.environ,
             name        = 'keilv5',
             type        = 'build',
-            MCU         = GetOption('MCU'),
-            BUILD_TYPE  = GetOption('BUILD_TYPE'),
+            mcu         = GetOption('mcu'),
+            mcu_config  = mcu_config,
+            build_type  = GetOption('build_type'),
             tools       = ['manager', 'keilv5_build', 'keilv5_project', 'keilv5_linker'],
-            toolpath    = ['tools', 'tools/build', 'tools/project', 'tools/linkgen'],
+            toolpath    = ['tools', 'tools/build', 'tools/project', 'tools/linker'],
         ))
 
-if 'unittest' in GetOption('TOOLCHAIN'):
+if 'unittest' in GetOption('toolchain'):
     envs.append(
         Environment(
             ENV         = os.environ,
             name        = 'unittest',
             type        = 'unittest',
-            MCU         = GetOption('MCU'),
+            mcu         = GetOption('mcu'),
+            mcu_config  = mcu_config,
             tools       = ['manager', 'unittest'],
             toolpath    = ['tools', 'tools/test'],
         ))
@@ -61,10 +66,10 @@ if 'unittest' in GetOption('TOOLCHAIN'):
 # Setup Environments
 for env in envs:
     env.Append(CPPDEFINES = [
-                            env['MCU']
+                            env['mcu']
                         ])
 
-    if env['BUILD_TYPE'] == "debug":
+    if env['build_type'] == "debug":
         env.Append(CPPDEFINES = [
                        "NRF_DEBUG",
                     ])

@@ -27,7 +27,7 @@ def setup_environment(env):
 
 
 def add_builders(env):
-    def project_emitter(target, source, env):
+    def keilv5_project_emitter(target, source, env):
         assert(len(target) == 1)
         data        = dict()
         root_dir    = env.Dir("#").abspath
@@ -39,11 +39,11 @@ def add_builders(env):
         target.append(file + '.uvoptx')
 
         # Add SVD-File.
-        if env['MCU'].startswith('NRF51'):
+        if env['mcu'].startswith('NRF51'):
             path                = os.path.join(os.path.dirname(__file__), 'keil', 'svd', 'nrf51.svd')
             data['svd_file']    = os.path.relpath(path, target_dir)
 
-        elif env['MCU'].startswith('NRF52'):
+        elif env['mcu'].startswith('NRF52'):
             path                = os.path.join(os.path.dirname(__file__), 'keil', 'svd', 'nrf52.svd')
             data['svd_file']    = os.path.relpath(path, target_dir)
 
@@ -83,18 +83,18 @@ def add_builders(env):
 
         return (target, [Python.Value(data)])
 
-    def project_action(target, source, env): 
+    def keilv5_project_action(target, source, env): 
         global jinjaEnv
         with open(str(target[0]), 'w+') as f:
-            template = jinjaEnv.get_template(env['MCU'] + '.uvprojx')
+            template = jinjaEnv.get_template(env['mcu'] + '.uvprojx')
             f.write(template.render(source[0].read()))
 
         with open(str(target[1]), 'w+') as f:
-            template = jinjaEnv.get_template(env['MCU'] + '.uvoptx')
+            template = jinjaEnv.get_template(env['mcu'] + '.uvoptx')
             f.write(template.render(source[0].read()))
 
     env.Append(BUILDERS={
                             'Project': Builder(
-                                action  = project_action,
-                                emitter = project_emitter)
+                                action  = keilv5_project_action,
+                                emitter = keilv5_project_emitter)
                         })
