@@ -23,8 +23,8 @@ GROUP(-lgcc -lc -lnosys)
 
 MEMORY
 {
-  FLASH (rx) : ORIGIN = {{ flash.address }}, LENGTH = {{ flash.length }}
-  RAM (rwx) :  ORIGIN = {{ ram.address }}, LENGTH = {{ ram.length }}
+  FLASH (rx) : ORIGIN = {{ flash_addr }}, LENGTH = {{ flash_size }}
+  RAM (rwx) :  ORIGIN = {{ ram_addr }}, LENGTH = {{ ram_size }}
 }
 
 SECTIONS

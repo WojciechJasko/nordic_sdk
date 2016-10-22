@@ -27,17 +27,8 @@ def setup_environment(env):
 
 def add_builders(env):
     def armgcc_linker_emitter(target, source, env):
-        data                        = dict()
-        data['flash']               = dict()
-        data['flash']['address']    = env['mcu_config']['flash_addr']
-        data['flash']['length']     = env['mcu_config']['flash_size']
-
-        data['ram']                 = dict()
-        data['ram']['address']      = env['mcu_config']['ram_addr']
-        data['ram']['length']       = env['mcu_config']['ram_size']
-
-
-        data['sections'] = list()
+        data                = env['mcu_config']
+        data['sections']    = list()
 
         return (target, [Python.Value(data)])
 
