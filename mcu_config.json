@@ -1,15 +1,55 @@
 {
-    "NRF52832": {
-      "cortex":     "M4",
-      "fpu":        "hard",
+    "nrf51422_xxAA": {
+      "cortex":     "M0",
+      "fpu":        "soft",
       "flash_addr": "0x00000000",
-      "flash_size": "0x00080000",
+      "flash_size": "0x00040000",
+      "ram_addr":   "0x20000000",
+      "ram_size":   "0x00004000"
+    },
+    "nrf51422_xxAB": {
+      "cortex":     "M0",
+      "fpu":        "soft",
+      "flash_addr": "0x00000000",
+      "flash_size": "0x00020000",
+      "ram_addr":   "0x20000000",
+      "ram_size":   "0x00004000"
+    },
+    "nrf51422_xxAC": {
+      "cortex":     "M0",
+      "fpu":        "soft",
+      "flash_addr": "0x00000000",
+      "flash_size": "0x00040000",
       "ram_addr":   "0x20000000",
       "ram_size":   "0x00008000"
     },
-    "NRF51422": {
+    "nrf51822_xxAA": {
       "cortex":     "M0",
       "fpu":        "soft",
+      "flash_addr": "0x00000000",
+      "flash_size": "0x00040000",
+      "ram_addr":   "0x20000000",
+      "ram_size":   "0x00004000"
+    },
+    "nrf51822_xxAB": {
+      "cortex":     "M0",
+      "fpu":        "soft",
+      "flash_addr": "0x00000000",
+      "flash_size": "0x00020000",
+      "ram_addr":   "0x20000000",
+      "ram_size":   "0x00004000"
+    },
+    "nrf51822_xxAC": {
+      "cortex":     "M0",
+      "fpu":        "soft",
+      "flash_addr": "0x00000000",
+      "flash_size": "0x00040000",
+      "ram_addr":   "0x20000000",
+      "ram_size":   "0x00008000"
+    },
+    "nRF52832_xxAA": {
+      "cortex":     "M4",
+      "fpu":        "hard",
       "flash_addr": "0x00000000",
       "flash_size": "0x00080000",
       "ram_addr":   "0x20000000",

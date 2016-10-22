@@ -1,7 +1,7 @@
 Import('env')
 
 sources = list()
-if env['mcu'].startswith('NRF51'):
+if env['mcu'].startswith('nrf51'):
     sources.append(File('system_nrf51.c'))
 
     if env['name'] == 'armgcc':
@@ -13,7 +13,7 @@ if env['mcu'].startswith('NRF51'):
     elif env['name'] == 'iar':
         env['startup'] = File('iar/iar_startup_nrf51.S')
 
-elif env['mcu'].startswith('NRF52'):
+elif env['mcu'].startswith('nrf52'):
     sources.append(File('system_nrf52.c'))
 
     if env['name'] == 'armgcc':

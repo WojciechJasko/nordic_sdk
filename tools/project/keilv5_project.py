@@ -39,11 +39,11 @@ def add_builders(env):
         target.append(file + '.uvoptx')
 
         # Add SVD-File.
-        if env['mcu'].startswith('NRF51'):
+        if env['mcu'].startswith('nrf51'):
             path                = os.path.join(os.path.dirname(__file__), 'keil', 'svd', 'nrf51.svd')
             data['svd_file']    = os.path.relpath(path, target_dir)
 
-        elif env['mcu'].startswith('NRF52'):
+        elif env['mcu'].startswith('nrf52'):
             path                = os.path.join(os.path.dirname(__file__), 'keil', 'svd', 'nrf52.svd')
             data['svd_file']    = os.path.relpath(path, target_dir)
 

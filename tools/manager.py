@@ -17,7 +17,7 @@ def setup_tools(env):
 
 def add_methods(env):
     def addLibrary(env, target, source):
-        if 'Library' not in env['TOOLS']: 
+        if 'Library' not in env['BUILDERS']: 
             env['lib'][target] = None
             return
 
@@ -39,7 +39,7 @@ def add_methods(env):
             file            = os.path.basename(str(header))
             file_name, ext  = os.path.splitext(file)
 
-            if 'CMock' not in env['TOOLS']:
+            if 'CMock' not in env['BUILDERS']:
                 env['cmock'][file_name] = None
 
             else:
@@ -52,7 +52,7 @@ def add_methods(env):
         return cmocks
 
     def addUnitTest(env, target, source):
-        if 'UnitTest' not in env['TOOLS']:
+        if 'UnitTest' not in env['BUILDERS']:
             return
 
         utest_result = env.UnitTest(target, source)
@@ -65,7 +65,7 @@ def add_methods(env):
         return utest
 
     def addHex(env, target, source, linker_file, lib = None):
-        if 'Elf2Hex' not in env['TOOLS']:
+        if 'Elf2Hex' not in env['BUILDERS']:
             return
 
         if not lib:

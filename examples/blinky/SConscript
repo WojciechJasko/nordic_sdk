@@ -9,12 +9,6 @@ libs = [
     env['lib']['core']
 ]
 
-#if env['MCU'].startswith('NRF51'):
-#    if 'armgcc' in env['TOOLS']:
-#        env['LINKFLAGS'] += ['-T'+os.path.realpath(Dir('#/examples/blinky').abspath+'/blinky_gcc_nrf51.ld')]
-#    if 'keilv5' in env['TOOLS']:
-#        env['LINKFLAGS'] += ['--scatter='+os.path.realpath(Dir('#/examples/blinky').abspath+'/nrf51422_xxaa.sct')]
-
 ld_file = env.Linkgen(target = 'blinky')
 env.addHex(target = 'blinky', source = sources, linker_file = ld_file, lib=libs)
-#env.Project(target = 'blinky', source = sources + libs)
+env.Project(target = 'blinky', source = sources + libs)
