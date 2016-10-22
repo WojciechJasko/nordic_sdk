@@ -17,6 +17,10 @@ def setup_tools(env):
 
 def add_methods(env):
     def addLibrary(env, target, source):
+        if 'Library' not in env['TOOLS']: 
+            env['lib'][target] = None
+            return
+
         build_library = env.Library(
             target = target,
             source = source
@@ -32,16 +36,25 @@ def add_methods(env):
     def addCMock(env, headers):
         cmocks = list()
         for header in headers:
-            build_cmock = env.CMock(header)
-            cmock       = env.Install('#cmock/', build_cmock)
-            file_name   = os.path.splitext(str(build_cmock[0]))[0]
+            file            = os.path.basename(str(header))
+            file_name, ext  = os.path.splitext(file)
 
-            env['cmock'][file_name] = cmock[0]
-            cmocks.append(cmock)
+            if 'CMock' not in env['TOOLS']:
+                env['cmock'][file_name] = None
+
+            else:
+                build_cmock = env.CMock(header)
+                cmock       = env.Install('#cmock/', build_cmock)
+
+                env['cmock'][file_name] = cmock[0]
+                cmocks.append(cmock)
 
         return cmocks
 
     def addUnitTest(env, target, source):
+        if 'UnitTest' not in env['TOOLS']:
+            return
+
         utest_result = env.UnitTest(target, source)
 
         utest = env.Install('#unit_test/', utest_result)
@@ -52,8 +65,12 @@ def add_methods(env):
         return utest
 
     def addHex(env, target, source, linker_file, lib = None):
+        if 'Elf2Hex' not in env['TOOLS']:
+            return
+
         if not lib:
             lib = list()
+
         local_env = env.Clone()
         local_env.addLinkerScript(linker_file)
 

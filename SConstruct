@@ -25,12 +25,19 @@ with open(path, 'r') as f:
 # Create Environments
 envs = list()
 
+# for toolchain in GetOption('toolchain'):
+#     for mcu in GetOption('mcu'):
+#         if toolchain == 'unittest':
+#             type = 'unittest'
+#         else:
+#             type = 'build'
+
+
 if 'armgcc' in GetOption('toolchain'):
     envs.append(
         Environment(
             ENV         = os.environ,
             name        = 'armgcc',
-            type        = 'build',
             mcu         = GetOption('mcu'),
             mcu_config  = mcu_config,
             build_type  = GetOption('build_type'),
@@ -43,7 +50,6 @@ if 'keilv5' in GetOption('toolchain'):
         Environment(
             ENV         = os.environ,
             name        = 'keilv5',
-            type        = 'build',
             mcu         = GetOption('mcu'),
             mcu_config  = mcu_config,
             build_type  = GetOption('build_type'),
@@ -56,7 +62,6 @@ if 'unittest' in GetOption('toolchain'):
         Environment(
             ENV         = os.environ,
             name        = 'unittest',
-            type        = 'unittest',
             mcu         = GetOption('mcu'),
             mcu_config  = mcu_config,
             tools       = ['manager', 'unittest'],

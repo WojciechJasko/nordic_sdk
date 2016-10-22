@@ -1,4 +1,3 @@
 Import('env')
 
-if env['type'] == 'unittest':
-    env.addUnitTest('test_nrf_error.c', source = env['cmock']['cmock_nrf_fault'])
+env.addUnitTest('test_nrf_error.c', source = env['cmock']['nrf_fault'])

@@ -7,8 +7,7 @@ includes = [
 ]
 env.Append(CPPPATH=includes)
 
-if env['type'] == 'unittest':
-    env.addCMock(Glob('include/*.h'))
+env.addCMock(Glob('include/*.h'))
 
 sources = list()
 for module in ['mcu', 'error']:
@@ -19,8 +18,7 @@ env.addSource(
         source = sources
     )
 
-if env['type'] == 'build':
-    env.addLibrary(
-        target = 'core',
-        source = sources
-    )
+env.addLibrary(
+    target = 'core',
+    source = sources
+)

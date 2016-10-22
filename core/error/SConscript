@@ -1,7 +1,6 @@
 Import('env')
 
-if env['type'] == 'unittest':
-    SConscript('test/SConscript',    exports=['env'])
+SConscript('test/SConscript',    exports=['env'])
 
 sources = [
     File('nrf_assert.c'),

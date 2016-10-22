@@ -11,6 +11,7 @@ def exists(env):
 
 def add_builders(env):
     def cmock_emitter(target, source, env): 
+        print(target)
         target  = list()
         for s in source:
             file            = os.path.basename(str(s))
