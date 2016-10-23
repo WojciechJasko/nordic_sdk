@@ -11,4 +11,5 @@ libs = [
 
 ld_file = env.Linker(target = 'Linker')
 env.addHex(target = 'blinky', source = sources, linker_file = ld_file, lib=libs)
-env.Project(target = 'blinky', source = sources + libs)
+if 'Project' in env['BUILDERS']:
+    env.Project(target = 'blinky', source = sources + libs)
