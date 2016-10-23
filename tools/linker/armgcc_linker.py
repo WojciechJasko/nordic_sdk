@@ -39,7 +39,7 @@ def add_builders(env):
             f.write(template.render(source[0].read()))
 
     env.Append(BUILDERS={
-                            'Linkgen': Builder(
+                            'Linker': Builder(
                                 action  = armgcc_linker_action,
                                 emitter = armgcc_linker_emitter,
                                 suffix  = '.ld')
